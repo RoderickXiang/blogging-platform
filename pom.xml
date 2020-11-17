@@ -19,6 +19,7 @@
     <dependencyManagement>
         <dependencies>
 
+            <!--使用引入依赖的方式导入springboot-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
