@@ -16,6 +16,7 @@ public class User {
     private String username;
     private String password;
     private String avatar;
+    private Integer roleId;
     private Date created;
     private Date modified;
     @TableLogic
@@ -61,6 +62,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     public Date getCreated() {
         return created;
     }
@@ -93,6 +102,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", roleId=" + roleId +
                 ", created=" + created +
                 ", modified=" + modified +
                 ", isDeleted=" + isDeleted +

@@ -27,14 +27,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //授权认证
         http.authorizeRequests()
                 //添加不需要被拦截的请求
-                .antMatchers("/login").permitAll()
+                .antMatchers("/", "/index", "/login").permitAll()
                 //不需要拦截静态资源
-                .antMatchers("/js/**", "/images/**", "/css/**","/image/**").permitAll()
+                .antMatchers("/js/**", "/images/**", "/css/**", "/image/**").permitAll()
                 //所有请求被拦截
                 .anyRequest().authenticated();
 
         //关闭csrf
         http.csrf().disable();
+        //注销
+        http.logout().logoutSuccessUrl("/");
     }
 
     @Bean
