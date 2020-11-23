@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<div th:fragment="editor">
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.min.css}"/>
+    <div id="editor" th:fragment="markdown-editor">
+        <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+        <label>
+            <textarea class="form-control" rows="16" style="display:none;"></textarea>
+        </label>
+    </div>
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <script th:src="@{/editor/editormd.min.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            let path = window.location.href;
+            let editor = editormd("editor", {
+                width: "100%",
+                height: 720,
+                toc: true,
+                // markdown: "xxxx",     // dynamic set Markdown text
+                path: "http://localhost:8080/editor/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+            });
+        });
+    </script>
+</div>
+</html>

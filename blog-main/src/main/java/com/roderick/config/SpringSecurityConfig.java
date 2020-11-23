@@ -30,6 +30,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index", "/login").permitAll()
                 //不需要拦截静态资源
                 .antMatchers("/js/**", "/images/**", "/css/**", "/image/**").permitAll()
+                //markdown插件
+                .antMatchers("/editor/**").permitAll()
                 //所有请求被拦截
                 .anyRequest().authenticated();
 
