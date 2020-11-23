@@ -12,7 +12,7 @@ public class UserRole {
     private Integer id;
     private String userRole;
     private String description;
-    private Date created;
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -38,12 +38,12 @@ public class UserRole {
         this.description = description;
     }
 
-    public Date getCreated() {
-        return created;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserRole {
                 "id=" + id +
                 ", userRole='" + userRole + '\'' +
                 ", description='" + description + '\'' +
-                ", created=" + created +
+                ", created=" + createTime +
                 '}';
     }
 }

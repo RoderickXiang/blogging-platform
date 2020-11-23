@@ -17,10 +17,10 @@ public class User {
     private String password;
     private String avatar;
     private Integer roleId;
-    private Date created;
-    private Date modified;
+    private Date createTime;
+    private Date modifiedTime;
     @TableLogic
-    private int isDeleted;
+    private int isDeleted;  //逻辑删除
 
     public Long getId() {
         return id;
@@ -70,20 +70,20 @@ public class User {
         this.roleId = roleId;
     }
 
-    public Date getCreated() {
-        return created;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getModified() {
-        return modified;
+    public Date getModifiedTime() {
+        return modifiedTime;
     }
 
-    public void setModified(Date modified) {
-        this.modified = modified;
+    public void setModifiedTime(Date modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 
     public int getIsDeleted() {
@@ -103,8 +103,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", roleId=" + roleId +
-                ", created=" + created +
-                ", modified=" + modified +
+                ", created=" + createTime +
+                ", modified=" + modifiedTime +
                 ", isDeleted=" + isDeleted +
                 '}';
     }
