@@ -26,7 +26,8 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="少放屁，多百度~~" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
             </form>
-            <!--写文章-->
+
+            <!--写文章图标-->
             <div sec:authorize="isAuthenticated()">
                 <a th:href="@{/blog/write}" title="Placeholder link title" class="text-decoration-none">
                     写文章

@@ -1,5 +1,7 @@
 package com.roderick.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roderick.mapper.ArticleCategoryMapper;
@@ -53,5 +55,10 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCategory(json);
         //存入数据库
         articleMapper.insert(article);
+    }
+
+    @Override
+    public Page<Article> getArticleListByPageOrderByTime(Integer page, Integer count) {
+        return articleMapper.selectPage(new Page<Article>(page, count), new QueryWrapper<Article>().orderByDesc(true, "create_time"));
     }
 }

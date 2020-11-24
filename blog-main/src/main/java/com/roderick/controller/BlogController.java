@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,10 +44,25 @@ public class BlogController {
 
     /**
      * 提交新的文章
+     *
+     * @param articleFrom 前端提交的vo对象
      */
-    @PostMapping("/write")
-    public String newArticle(ArticleFrom articleFrom) {
+    @PostMapping("/article")
+    public String saveArticle(ArticleFrom articleFrom) {
         articleService.saveArticle(articleFrom);
         return "redirect:/index";
+    }
+
+    /**
+     * 按时间顺序获取文章列表
+     *
+     * @param page  页面
+     * @param count 每页的条数
+     */
+    @GetMapping("/article/{page}/{count}")
+    public String getArticleList(@PathVariable Integer page, @PathVariable Integer count) {
+        articleService.getArticleListByPageOrderByTime(page, count);
+        //todo 设置页面属性
+        return null;
     }
 }

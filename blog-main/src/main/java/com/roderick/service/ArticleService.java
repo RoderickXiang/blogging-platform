@@ -1,5 +1,7 @@
 package com.roderick.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.roderick.pojo.Article;
 import com.roderick.vo.ArticleFrom;
 
 public interface ArticleService {
@@ -9,4 +11,11 @@ public interface ArticleService {
      * @param articleFrom 前端传来的表单对象
      */
     void saveArticle(ArticleFrom articleFrom);
+
+    /**
+     * 按时间顺序分页获取文章
+     * @param page 页面
+     * @param count 每页的条数
+     */
+    Page<Article> getArticleListByPageOrderByTime(Integer page, Integer count);
 }

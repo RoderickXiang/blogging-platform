@@ -20,7 +20,7 @@ public class Article {
     private Date createTime;
     private Date modifiedTime;
     @TableLogic
-    private Integer idDeleted;
+    private Integer isDeleted;
 
     public Long getId() {
         return id;
@@ -86,12 +86,12 @@ public class Article {
         this.modifiedTime = modifiedTime;
     }
 
-    public Integer getIdDeleted() {
-        return idDeleted;
+    public Integer getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setIdDeleted(Integer idDeleted) {
-        this.idDeleted = idDeleted;
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class Article {
                 ", category='" + category + '\'' +
                 ", createTime=" + createTime +
                 ", modifiedTime=" + modifiedTime +
-                ", idDeleted=" + idDeleted +
+                ", idDeleted=" + isDeleted +
                 '}';
     }
 }
