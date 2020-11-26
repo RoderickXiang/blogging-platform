@@ -1,5 +1,7 @@
 package com.roderick.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
 import com.roderick.service.ArticleCategoryService;
 import com.roderick.service.ArticleService;
@@ -54,15 +56,23 @@ public class BlogController {
     }
 
     /**
-     * 按时间顺序获取文章列表
+     * 按时间顺序获取文章列表页面
      *
      * @param page  页面
      * @param count 每页的条数
      */
-    @GetMapping("/article/{page}/{count}")
-    public String getArticleList(@PathVariable Integer page, @PathVariable Integer count) {
-        articleService.getArticleListByPageOrderByTime(page, count);
-        //todo 设置页面属性
-        return null;
+    @GetMapping({"/{page}/{count}", ""})
+    public String getArticleList(@PathVariable(value = "page", required = false) Integer page,
+                                 @PathVariable(value = "count", required = false) Integer count,
+                                 Model model) {
+        Page<Article> articlePage;
+        if (page == null || count == null) {
+            articlePage = articleService.getArticleListByPageOrderByTime();
+        } else {
+            articlePage = articleService.getArticleListByPageOrderByTime(page, count);
+        }
+
+        model.addAttribute("articlePage", articlePage);
+        return "blog/list";
     }
 }

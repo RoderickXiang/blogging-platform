@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <title>博客社区</title>
+</head>
+<style>
+    #article-list-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        user-select: none;
+        margin-top: 24px;
+        float: left;
+    }
+
+    #notice-list-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        margin-left: 5px;
+        user-select: none;
+        margin-top: 24px;
+        width: 250px;
+        float: left;
+    }
+</style>
+
+<body>
+<!--导航条-->
+<div th:replace="~{common/navigationbar::navigationbar('blog')}"></div>
+<div class="container">
+    <!--文章列表-->
+    <div id="article-list-container" class="col-md-9">
+        <table class="table table-sm table-hover table-striped table-borderless">
+            <!--        <thead>
+                    <tr>
+                        &lt;!&ndash;todo 调整每列宽度&ndash;&gt;
+                        <th scope="col">标题</th>
+                        <th scope="col">作者</th>
+                        <th scope="col">时间</th>
+                    </tr>
+                    </thead>-->
+            <tbody>
+            <tr>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            <tr th:each="article:${articlePage.getRecords()}">
+                <td>
+                    <a th:href="@{/#}" th:text="${article.getTitle()}"></a>
+                </td>
+                <td>
+                    <a class="text-decoration-none" th:href="@{/#}" th:text="${article.getAuthorName()}"></a>
+                </td>
+                <td class="font-weight-light text-muted" th:text="${article.getFrontendCreateTime()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <div id="notice-list-container">
+            <h5>公告</h5>
+        </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</body>
+</html>

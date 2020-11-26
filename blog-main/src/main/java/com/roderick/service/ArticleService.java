@@ -18,4 +18,9 @@ public interface ArticleService {
      * @param count 每页的条数
      */
     Page<Article> getArticleListByPageOrderByTime(Integer page, Integer count);
+
+    /**
+     * 默认获取第一页
+     */
+    Page<Article> getArticleListByPageOrderByTime();
 }
