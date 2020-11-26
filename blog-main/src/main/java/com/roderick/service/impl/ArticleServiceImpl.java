@@ -61,4 +61,9 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> getArticleListByPageOrderByTime(Integer page, Integer count) {
         return articleMapper.selectPage(new Page<Article>(page, count), new QueryWrapper<Article>().orderByDesc(true, "create_time"));
     }
+
+    @Override
+    public Page<Article> getArticleListByPageOrderByTime() {
+        return this.getArticleListByPageOrderByTime(1, 5);
+    }
 }

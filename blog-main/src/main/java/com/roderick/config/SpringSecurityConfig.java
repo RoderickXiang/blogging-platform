@@ -32,6 +32,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**", "/images/**", "/css/**", "/image/**", "/**/*.ico").permitAll()
                 //markdown插件
                 .antMatchers("/editor/**").permitAll()
+                //博客社区
+                .antMatchers("/blog").permitAll()
                 //所有请求被拦截
                 .anyRequest().authenticated();
 
