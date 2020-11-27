@@ -75,13 +75,13 @@
             </tbody>
         </table>
         <!--分页-->
-        <div th:replace="~{common/page-navigation::page-navigation}"></div>
+        <div th:replace="~{common/page-navigation::page-navigation(${articlePage.getCurrent()},5,${totalPage})}"></div>
     </div>
 
     <!--公告-->
     <div id="notice-list-container" class="col-md-2">
         <h6 class="font-weight-bold" style="text-align: center">公告</h6>
-        <p class="text-muted">&emsp;&emsp;发表文章请遵守社会主义核心价值观，不要水文章，又没有经验得~~🤷‍♂</p>
+        <p class="text-muted">&emsp;&emsp;发表文章请遵守社会主义核心价值观，不要水文章，又没有经验~~🤷‍♂</p>
     </div>
 </div>
 

@@ -3,13 +3,13 @@ import com.roderick.StartApplication;
 import com.roderick.mapper.ArticleMapper;
 import com.roderick.pojo.Article;
 import com.roderick.service.ArticleService;
+import com.roderick.utils.PageUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 @SpringBootTest(classes = StartApplication.class)
 public class MainTest {
@@ -18,6 +18,8 @@ public class MainTest {
     ArticleMapper articleMapper;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    PageUtil pageUtil;
 
     public static void main(String[] args) {
         //System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
@@ -28,14 +30,19 @@ public class MainTest {
 
     @Test
     public void pageTest() {
-        Page<Article> page = articleService.getArticleListByPageOrderByTime(1, 1);
+        Page<Article> page = articleService.getArticleListByPageOrderByTime(1, 2);
         System.out.println(page);
         System.out.println(page.getRecords());
     }
 
     @Test
-    public void articleTest(){
+    public void articleTest() {
         Article article = articleMapper.selectById(4);
         System.out.println(article.getFrontendCreateTime());
+    }
+
+    @Test
+    public void util() {
+        System.out.println(pageUtil.getTotalPage(3L, 5L));
     }
 }

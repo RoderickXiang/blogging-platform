@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
-<!--分页-->
-<nav th:fragment="page-navigation(page,size)" style="float: right">
+<!--分页 参数：现在的页面 分页条的大小 总页面数-->
+<nav th:fragment="page-navigation(currentPage,barSize,totalPage)" style="float: right">
     <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
+        <li class="page-item" th:if="${currentPage>1}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${currentPage - 1} + '/' + '5'}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
+
+        <!--totalPage小于等于size-->
+        <li th:class="${currentPage==i ? 'page-item active' : 'page-item'}" th:if="${totalPage<=barSize}"
+            th:each="i:${#numbers.sequence(1,totalPage)}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${i} + '/' + '5'}" th:text="${i}"></a>
+        </li>
+
+        <!--前-->
+        <li th:class="${currentPage==i ? 'page-item active' : 'page-item'}"
+            th:if="${totalPage>barSize  && currentPage<=(barSize/2 + 1)}"
+            th:each="i:${#numbers.sequence(1,barSize)}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${i} + '/' + '5'}" th:text="${i}"></a>
+        </li>
+        <!--中-->
+        <li th:class="${currentPage==i ? 'page-item active' : 'page-item'}"
+            th:if="${totalPage>barSize  && currentPage>=(barSize/2 + 2) && currentPage<=(totalPage - barSize/2)}"
+            th:each="i:${#numbers.sequence(currentPage - barSize/2,currentPage + barSize/2)}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${i} + '/' + '5'}" th:text="${i}"></a>
+        </li>
+        <!--后-->
+        <li th:class="${currentPage==i ? 'page-item active' : 'page-item'}"
+            th:if="${totalPage>barSize  && currentPage>=(totalPage - barSize/2 + 1)}"
+            th:each="i:${#numbers.sequence(totalPage - barSize + 1,totalPage)}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${i} + '/' + '5'}" th:text="${i}"></a>
+        </li>
+
+        <li class="page-item" th:if="${currentPage<totalPage}">
+            <a class="page-link" th:href="@{'/blog' + '/' + ${currentPage + 1} + '/' + '5'}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

@@ -5,6 +5,7 @@ import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
 import com.roderick.service.ArticleCategoryService;
 import com.roderick.service.ArticleService;
+import com.roderick.utils.PageUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class BlogController {
 
     ArticleService articleService;
     ArticleCategoryService articleCategoryService;
+    PageUtil pageUtil;
 
     @Autowired
     public void setArticleCategoryService(ArticleCategoryService articleCategoryService) {
@@ -31,6 +33,11 @@ public class BlogController {
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
+    }
+
+    @Autowired
+    public void setTotalPage(PageUtil pageUtil) {
+        this.pageUtil = pageUtil;
     }
 
     /**
@@ -58,21 +65,17 @@ public class BlogController {
     /**
      * 按时间顺序获取文章列表页面
      *
-     * @param page  页面
-     * @param size 每页的条数
+     * @param page 页面
+     * @param size 每页数据的条数 default 5
      */
     @GetMapping({"/{page}/{size}", ""})
     public String getArticleList(@PathVariable(value = "page", required = false) Integer page,
                                  @PathVariable(value = "size", required = false) Integer size,
                                  Model model) {
-        Page<Article> articlePage;
-        if (page == null || size == null) {
-            articlePage = articleService.getArticleListByPageOrderByTime();
-        } else {
-            articlePage = articleService.getArticleListByPageOrderByTime(page, size);
-        }
+        Page<Article> articlePage = articleService.getArticleListByPageOrderByTime(page, size);
 
         model.addAttribute("articlePage", articlePage);
+        model.addAttribute("totalPage", pageUtil.getTotalPage(articlePage.getTotal(), articlePage.getSize()));
         return "blog/list";
     }
 }

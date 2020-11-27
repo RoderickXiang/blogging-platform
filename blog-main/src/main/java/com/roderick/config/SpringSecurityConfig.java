@@ -4,6 +4,7 @@ import com.roderick.handler.MyAuthenticationFailureHandler;
 import com.roderick.handler.MyAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,9 +34,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //markdown插件
                 .antMatchers("/editor/**").permitAll()
                 //博客社区
-                .antMatchers("/blog").permitAll()
-                //所有请求被拦截
-                .anyRequest().authenticated();
+                .antMatchers(HttpMethod.GET,"/blog/write/**").authenticated();
+                //所有请求被拦截 --试试不拦截全部请求，只是验证权限
+                /*.anyRequest().authenticated();*/
 
         //关闭csrf
         http.csrf().disable();
