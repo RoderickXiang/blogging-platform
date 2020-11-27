@@ -15,9 +15,9 @@ public interface ArticleService {
     /**
      * 按时间顺序分页获取文章
      * @param page 页面
-     * @param count 每页的条数
+     * @param size 每页的条数
      */
-    Page<Article> getArticleListByPageOrderByTime(Integer page, Integer count);
+    Page<Article> getArticleListByPageOrderByTime(Integer page, Integer size);
 
     /**
      * 默认获取第一页

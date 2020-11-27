@@ -59,17 +59,17 @@ public class BlogController {
      * 按时间顺序获取文章列表页面
      *
      * @param page  页面
-     * @param count 每页的条数
+     * @param size 每页的条数
      */
-    @GetMapping({"/{page}/{count}", ""})
+    @GetMapping({"/{page}/{size}", ""})
     public String getArticleList(@PathVariable(value = "page", required = false) Integer page,
-                                 @PathVariable(value = "count", required = false) Integer count,
+                                 @PathVariable(value = "size", required = false) Integer size,
                                  Model model) {
         Page<Article> articlePage;
-        if (page == null || count == null) {
+        if (page == null || size == null) {
             articlePage = articleService.getArticleListByPageOrderByTime();
         } else {
-            articlePage = articleService.getArticleListByPageOrderByTime(page, count);
+            articlePage = articleService.getArticleListByPageOrderByTime(page, size);
         }
 
         model.addAttribute("articlePage", articlePage);
