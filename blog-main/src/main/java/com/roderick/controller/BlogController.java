@@ -5,7 +5,7 @@ import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
 import com.roderick.service.ArticleCategoryService;
 import com.roderick.service.ArticleService;
-import com.roderick.utils.PageUtil;
+import com.roderick.util.PageUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.roderick.utils;
+package com.roderick.util;
 
 import org.springframework.stereotype.Component;
 

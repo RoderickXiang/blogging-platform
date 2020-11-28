@@ -96,7 +96,7 @@
 <div role="main" class="container mt-3 p-3 bg-white rounded">
     <form th:action="@{/blog/article}" method="post">
         <h4 class="mb-3">发布文章</h4>
-        <input type="hidden" name="uid" th:value="${session.loginUser.getUid()}"><!--作者-->
+        <input type="hidden" name="uid" th:value="${session.loginUser.getUid()}"><!--作者uid-->
         <div class="row">
             <div class="col-md-8 mb-3">
                 <label for="firstName">文章标题</label>

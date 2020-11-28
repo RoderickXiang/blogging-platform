@@ -3,7 +3,7 @@ import com.roderick.StartApplication;
 import com.roderick.mapper.ArticleMapper;
 import com.roderick.pojo.Article;
 import com.roderick.service.ArticleService;
-import com.roderick.utils.PageUtil;
+import com.roderick.util.PageUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,9 +23,8 @@ public class MainTest {
 
     public static void main(String[] args) {
         //System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
-        new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-        System.out.println(simpleDateFormat.format(new Date()));
+        char[] chars = {'好','哈'};
+        System.out.println(chars.length);
     }
 
     @Test

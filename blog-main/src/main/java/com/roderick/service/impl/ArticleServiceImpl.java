@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roderick.mapper.ArticleCategoryMapper;
 import com.roderick.mapper.ArticleMapper;
+import com.roderick.mapper.UserMapper;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
 import com.roderick.service.ArticleService;
@@ -21,6 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     ArticleMapper articleMapper;
     ArticleCategoryMapper articleCategoryMapper;
+    UserMapper userMapper;
 
     @Autowired
     public void setArticleMapper(ArticleMapper articleMapper) {
@@ -32,16 +34,25 @@ public class ArticleServiceImpl implements ArticleService {
         this.articleCategoryMapper = articleCategoryMapper;
     }
 
+    @Autowired
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
     @Override
     public void saveArticle(ArticleFrom articleFrom) {
         Article article = new Article();
         article.setTitle(articleFrom.getTitle());
         article.setContent(articleFrom.getContent());
         /*浏览量默认为0*/
-        article.setAuthorUid(articleFrom.getUid());
+        //设置作者
+        if (articleFrom.getUid()!=null){
+            article.setAuthorUid(articleFrom.getUid());
+            article.setAuthorName(userMapper.selectById(articleFrom.getUid()).getUsername());
+        }
         //json设置文章类别
         String json = null;
-        ArticleCategory category = articleCategoryMapper.selectById(articleFrom.getCategoryId());
+        ArticleCategory category = articleCategoryMapper.selectById(articleFrom.getCategoryId());   //查询数据库获取类别
         if (category != null) {
             Map<Integer, String> map = new HashMap<>();
             map.put(category.getId(), category.getCategoryName());

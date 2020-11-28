@@ -9,7 +9,7 @@
             </a>
         </li>
 
-        <!--totalPage小于等于size-->
+        <!--totalPage小于等于barSize-->
         <li th:class="${currentPage==i ? 'page-item active' : 'page-item'}" th:if="${totalPage<=barSize}"
             th:each="i:${#numbers.sequence(1,totalPage)}">
             <a class="page-link" th:href="@{'/blog' + '/' + ${i} + '/' + '5'}" th:text="${i}"></a>
