@@ -41,8 +41,9 @@ public class PushFileIntoDatabase {
                 /*浏览量默认为0*/
                 article.setAuthorUid("d7885613210d4274bbb00834965b7155");
                 article.setAuthorName("RoderickXiang");
+                article.setCreateTime(new Date(file.lastModified()));
 
-                //articleMapper.insert(article);
+                articleMapper.insert(article);
             }
         } else {
             File[] directories = file.listFiles();

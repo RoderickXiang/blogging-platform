@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
             page = 1;
         }
         if (size == null || size <= 0) {
-            size = 5;
+            size = 20;
         }
         return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>().orderByDesc(true, "create_time"));
     }

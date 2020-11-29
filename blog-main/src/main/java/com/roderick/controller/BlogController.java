@@ -66,7 +66,7 @@ public class BlogController {
      * 按时间顺序获取文章列表页面
      *
      * @param page 页面
-     * @param size 每页数据的条数 default 5
+     * @param size 每页数据的条数 default 20
      */
     @GetMapping({"/{page}/{size}", ""})
     public String getArticleList(@PathVariable(value = "page", required = false) Integer page,

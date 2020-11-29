@@ -15,7 +15,7 @@ public interface ArticleService {
     /**
      * 按时间顺序分页获取文章
      * @param page 页面
-     * @param size 每页数据的条数 default 5
+     * @param size 每页数据的条数 default 20
      */
     Page<Article> getArticleListByPageOrderByTime(Integer page, Integer size);
 }
