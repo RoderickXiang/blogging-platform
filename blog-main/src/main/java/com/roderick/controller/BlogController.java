@@ -52,6 +52,15 @@ public class BlogController {
     }
 
     /**
+     * 文章内容页面
+     */
+    @GetMapping("/article/{id}")
+    public String articlePage(Model model, @PathVariable Long id){
+        model.addAttribute("article",articleService.getArticleById(id));
+        return "blog/article";
+    }
+
+    /**
      * 提交新的文章
      *
      * @param articleFrom 前端提交的vo对象

@@ -51,7 +51,7 @@
             <tbody>
             <tr th:each="article:${articlePage.getRecords()}">
                 <td>
-                    <a th:href="@{/#}" th:text="${article.getTitle()}"></a>
+                    <a th:href="@{'/blog/article' + '/' + ${article.getId()}}" th:text="${article.getTitle()}"></a>
                 </td>
                 <td>
                     <a class="text-decoration-none" th:href="@{/#}" th:text="${article.getAuthorName()}"></a>

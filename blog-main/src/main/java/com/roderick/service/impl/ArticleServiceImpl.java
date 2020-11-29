@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent(articleFrom.getContent());
         /*浏览量默认为0*/
         //设置作者
-        if (articleFrom.getUid()!=null){
+        if (articleFrom.getUid() != null) {
             article.setAuthorUid(articleFrom.getUid());
             article.setAuthorName(userMapper.selectById(articleFrom.getUid()).getUsername());
         }
@@ -77,5 +77,10 @@ public class ArticleServiceImpl implements ArticleService {
             size = 20;
         }
         return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>().orderByDesc(true, "create_time"));
+    }
+
+    @Override
+    public Article getArticleById(Long id) {
+        return articleMapper.selectById(id);
     }
 }

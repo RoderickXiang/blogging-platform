@@ -18,4 +18,9 @@ public interface ArticleService {
      * @param size 每页数据的条数 default 20
      */
     Page<Article> getArticleListByPageOrderByTime(Integer page, Integer size);
+
+    /**
+     * 通过id获取文章
+     */
+    Article getArticleById(Long id);
 }
