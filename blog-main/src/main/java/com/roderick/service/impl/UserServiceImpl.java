@@ -1,8 +1,10 @@
 package com.roderick.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.roderick.mapper.ArticleMapper;
 import com.roderick.mapper.UserMapper;
 import com.roderick.mapper.UserRoleMapper;
+import com.roderick.pojo.Article;
 import com.roderick.pojo.User;
 import com.roderick.pojo.UserRole;
 import com.roderick.service.UserService;
@@ -14,15 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    ArticleMapper articleMapper;
     UserMapper userMapper;
     UserRoleMapper userRoleMapper;
     PasswordEncoder passwordEncoder;
     HttpSession session;
+
+    @Autowired
+    public void setArticleMapper(ArticleMapper articleMapper) {
+        this.articleMapper = articleMapper;
+    }
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -55,11 +62,21 @@ public class UserServiceImpl implements UserService {
         //获取用户角色
         UserRole userRole = userRoleMapper.selectById(realUser.getId());
 
-        //设置session
+        //设置session --其实应该放在登入验证之后
         session.setAttribute("loginUser", realUser);
         //username 来自于前端
         //password 来自于数据库
         return new org.springframework.security.core.userdetails.
-                User(username, realUser.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_"+userRole.getUserRole()));
+                User(username, realUser.getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_" + userRole.getUserRole()));
+    }
+
+    @Override
+    public User getUserByUid(String uid) {
+        return userMapper.selectOne(new QueryWrapper<User>().eq("uid", uid));
+    }
+
+    @Override
+    public Integer getPostsByUid(String uid) {
+        return articleMapper.selectCount(new QueryWrapper<Article>().eq("author_uid", uid));
     }
 }

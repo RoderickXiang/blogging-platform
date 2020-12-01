@@ -1,9 +1,6 @@
 package com.roderick.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 
@@ -20,7 +17,10 @@ public class User {
     private Date createTime;
     private Date modifiedTime;
     @TableLogic
-    private int isDeleted;  //逻辑删除
+    private Integer isDeleted;  //逻辑删除
+
+    @TableField(exist = false)
+    private Integer posts;   //发布的文章数
 
     public Long getId() {
         return id;
@@ -94,6 +94,14 @@ public class User {
         this.isDeleted = isDeleted;
     }
 
+    public Integer getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Integer posts) {
+        this.posts = posts;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -103,9 +111,10 @@ public class User {
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", roleId=" + roleId +
-                ", created=" + createTime +
-                ", modified=" + modifiedTime +
+                ", createTime=" + createTime +
+                ", modifiedTime=" + modifiedTime +
                 ", isDeleted=" + isDeleted +
+                ", posts=" + posts +
                 '}';
     }
 }

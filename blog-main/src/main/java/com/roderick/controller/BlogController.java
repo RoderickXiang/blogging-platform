@@ -3,8 +3,10 @@ package com.roderick.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
+import com.roderick.pojo.User;
 import com.roderick.service.ArticleCategoryService;
 import com.roderick.service.ArticleService;
+import com.roderick.service.UserService;
 import com.roderick.util.PageUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class BlogController {
 
     ArticleService articleService;
     ArticleCategoryService articleCategoryService;
+    UserService userService;
     PageUtil pageUtil;
 
     @Autowired
@@ -36,7 +39,12 @@ public class BlogController {
     }
 
     @Autowired
-    public void setTotalPage(PageUtil pageUtil) {
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setPageUtil(PageUtil pageUtil) {
         this.pageUtil = pageUtil;
     }
 
@@ -55,8 +63,16 @@ public class BlogController {
      * 文章内容页面
      */
     @GetMapping("/article/{id}")
-    public String articlePage(Model model, @PathVariable Long id){
-        model.addAttribute("article",articleService.getArticleById(id));
+    public String articlePage(Model model, @PathVariable Long id) {
+        Article article = articleService.getArticleById(id);
+        //文章信息
+        model.addAttribute("article", article);
+        User author = userService.getUserByUid(article.getAuthorUid());
+
+        author.setPassword(""); //清除敏感信息
+        author.setPosts(userService.getPostsByUid(article.getAuthorUid())); //发布的文章数
+        //作者信息
+        model.addAttribute("author", author);
         return "blog/article";
     }
 

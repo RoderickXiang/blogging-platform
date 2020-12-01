@@ -22,6 +22,7 @@ public class Article {
     @TableLogic
     private Integer isDeleted;
 
+    /*todo 修改名字为 formattedCreateTime*/
     @TableField(exist = false)
     private String frontendCreateTime;    //前端输出已经格式化的时间，免得显示太草包
     @TableField(exist = false)

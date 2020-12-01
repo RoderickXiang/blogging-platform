@@ -3,6 +3,7 @@ import com.roderick.StartApplication;
 import com.roderick.mapper.ArticleMapper;
 import com.roderick.pojo.Article;
 import com.roderick.service.ArticleService;
+import com.roderick.service.UserService;
 import com.roderick.util.PageUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,8 @@ public class MainTest {
     ArticleService articleService;
     @Autowired
     PageUtil pageUtil;
-
-    public static void main(String[] args) {
-        //System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
-        char[] chars = {'好','哈'};
-        System.out.println(chars.length);
-    }
+    @Autowired
+    UserService userService;
 
     @Test
     public void pageTest() {
@@ -43,5 +40,10 @@ public class MainTest {
     @Test
     public void util() {
         System.out.println(pageUtil.getTotalPage(3L, 5L));
+    }
+
+    @Test
+    public void userTest(){
+        System.out.println(userService.getPostsByUid("d7885613210d4274bbb00834965b7155"));
     }
 }

@@ -11,7 +11,8 @@
     <title>Hello, world!</title>
 </head>
 <style>
-    #test-markdown-view {
+
+    #markdown-view {
         background: rgb(255, 255, 255);
         box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
         border-radius: 8px;
@@ -29,25 +30,67 @@
         padding: 14px 16px 1px;
         user-select: none;
         margin-top: 24px;
-        margin-left: 30px;
-        /*width: 25%;*/
+        /*margin-left: 30px;*/
         display: none;
-        float: left;
+        /*float: left;*/
+    }
+
+    #author-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        user-select: none;
+        margin-top: 24px;
+        /*margin-left: 30px;*/
+        /*float: inside;*/
     }
 </style>
 <body>
 <div th:replace="~{common/navigationbar::navigationbar('index')}"></div>
 
 <link rel="stylesheet" th:href="@{/editor/css/editormd.preview.css}"/>
-<!--toc容器-->
-<div id="toc-container" class="col-md-3"></div>
-<!--文本内容-->
-<div id="test-markdown-view" class="col-md-8">
-    <!-- Server-side output Markdown text -->
-    <label>
-        <textarea style="display:none;" th:text="${article.getContent()}">### Hello world!</textarea>
-    </label>
+
+<div class="d-flex justify-content-between container">
+    <div class="d-flex flex-column col-md-4">
+        <!--作者信息-->
+        <div id="author-container">
+            <div class="text-center">
+                <img th:src="@{/image/test-avatar.jpg}" class="rounded" alt="...">
+            </div>
+            <h5 style="text-align: center" th:text="${author.getUsername()}"></h5>
+            <table class="table table-borderless table-sm">
+                <thead>
+                <tr>
+                    <th scope="col" style="text-align: center" class="text-muted">文章</th>
+                    <th scope="col" style="text-align: center" class="text-muted">浏览</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: center">
+                        <a class="text text-decoration-none text-info" href="#" th:text="${author.getPosts()}">10</a>
+                    </td>
+                    <td style="text-align: center">
+                        <a class="text text-decoration-none text-muted">3000</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--toc容器-->
+        <div id="toc-container"></div>
+    </div>
+
+    <!--文本内容-->
+    <div id="markdown-view" class="col-md-8">
+        <!-- Server-side output Markdown text -->
+        <label>
+            <textarea style="display:none;" th:text="${article.getContent()}">### Hello world!</textarea>
+        </label>
+    </div>
 </div>
+
 
 <script th:src="@{/js/jquery-3.5.1.js}"></script>
 <script th:src="@{/editor/editormd.js}"></script>
@@ -55,7 +98,7 @@
 <script th:src="@{/editor/lib/prettify.min.js}"></script>
 <script type="text/javascript">
     $(function () {
-        let testView = editormd.markdownToHTML("test-markdown-view", {
+        let testView = editormd.markdownToHTML("markdown-view", {
             tocContainer: "#toc-container",  //自定义toc容器
             emoji: true,
             toc: true
