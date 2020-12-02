@@ -83,4 +83,9 @@ public class ArticleServiceImpl implements ArticleService {
     public Article getArticleById(Long id) {
         return articleMapper.selectById(id);
     }
+
+    @Override
+    public void asyncIncreaseViews(Long id) {
+
+    }
 }

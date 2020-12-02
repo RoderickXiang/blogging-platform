@@ -8,12 +8,14 @@ public interface ArticleService {
 
     /**
      * 保存文章
+     *
      * @param articleFrom 前端传来的表单对象
      */
     void saveArticle(ArticleFrom articleFrom);
 
     /**
      * 按时间顺序分页获取文章
+     *
      * @param page 页面
      * @param size 每页数据的条数 default 20
      */
@@ -23,4 +25,11 @@ public interface ArticleService {
      * 通过id获取文章
      */
     Article getArticleById(Long id);
+
+    /**
+     * 异步增加文章浏览量
+     *
+     * @param id 文章id
+     */
+    void asyncIncreaseViews(Long id);
 }
