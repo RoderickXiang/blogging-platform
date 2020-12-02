@@ -2,7 +2,6 @@ package com.roderick.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,11 +21,10 @@ public class Article {
     @TableLogic
     private Integer isDeleted;
 
-    /*todo 修改名字为 formattedCreateTime*/
     @TableField(exist = false)
-    private String frontendCreateTime;    //前端输出已经格式化的时间，免得显示太草包
+    private String formattedCreateTime;    //前端输出已经格式化的时间，免得显示太草包
     @TableField(exist = false)
-    private String frontendModifiedTime;    //前端输出已经格式化的修改时间，免得显示太草包
+    private String formattedModifiedTime;    //前端输出已经格式化的修改时间，免得显示太草包
 
     public Long getId() {
         return id;
@@ -108,7 +106,7 @@ public class Article {
         this.isDeleted = isDeleted;
     }
 
-    public String getFrontendCreateTime() {
+    public String getFormattedCreateTime() {
         if (this.createTime != null) {
             //时间格式转换
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -118,11 +116,11 @@ public class Article {
         }
     }
 
-    public void setFrontendCreateTime(String frontendCreateTime) {
-        this.frontendCreateTime = frontendCreateTime;
+    public void setFormattedCreateTime(String formattedCreateTime) {
+        this.formattedCreateTime = formattedCreateTime;
     }
 
-    public String getFrontendModifiedTime() {
+    public String getFormattedModifiedTime() {
         if (this.modifiedTime != null) {
             //时间格式转换
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,8 +130,8 @@ public class Article {
         }
     }
 
-    public void setFrontendModifiedTime(String frontendModifiedTime) {
-        this.frontendModifiedTime = frontendModifiedTime;
+    public void setFormattedModifiedTime(String formattedModifiedTime) {
+        this.formattedModifiedTime = formattedModifiedTime;
     }
 
     @Override
@@ -149,6 +147,8 @@ public class Article {
                 ", createTime=" + createTime +
                 ", modifiedTime=" + modifiedTime +
                 ", isDeleted=" + isDeleted +
+                ", formattedCreateTime='" + formattedCreateTime + '\'' +
+                ", formattedModifiedTime='" + formattedModifiedTime + '\'' +
                 '}';
     }
 }

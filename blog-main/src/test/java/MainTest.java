@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @SpringBootTest(classes = StartApplication.class)
 public class MainTest {
 
@@ -34,7 +31,7 @@ public class MainTest {
     @Test
     public void articleTest() {
         Article article = articleMapper.selectById(4);
-        System.out.println(article.getFrontendCreateTime());
+        System.out.println(article.getFormattedCreateTime());
     }
 
     @Test

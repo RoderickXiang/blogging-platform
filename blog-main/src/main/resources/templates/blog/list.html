@@ -55,9 +55,9 @@
                     <a th:href="@{'/blog/article' + '/' + ${article.getId()}}" th:text="${article.getTitle()}"></a>
                 </td>
                 <td>
-                    <a class="text-decoration-none" th:href="@{/#}" th:text="${article.getAuthorName()}"></a>
+                    <a class="text-decoration-none text-break" th:href="@{/#}" th:text="${article.getAuthorName()}"></a>
                 </td>
-                <td class="font-weight-light text-muted" th:text="${article.getFrontendCreateTime()}"></td>
+                <td class="font-weight-light text-muted" th:text="${article.getFormattedCreateTime()}"></td>
             </tr>
             </tbody>
         </table>
