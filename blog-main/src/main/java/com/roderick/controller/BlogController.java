@@ -66,7 +66,8 @@ public class BlogController {
      */
     @GetMapping("/article/{id}")
     public String articlePage(Model model, @PathVariable Long id) {
-        //todo 异步增加浏览量
+        //异步增加浏览量
+        articleService.asyncIncreaseViews(id);
         Article article = articleService.getArticleById(id);
         //文章信息
         model.addAttribute("article", article);

@@ -43,4 +43,11 @@ public class MainTest {
     public void userTest(){
         System.out.println(userService.getPostsByUid("d7885613210d4274bbb00834965b7155"));
     }
+
+    @Test
+    public void asyncTest() throws InterruptedException {
+        /*articleService.asyncIncreaseViews(2L);
+        Thread.sleep(5000L);*/
+        articleMapper.increaseViewsById(2L);
+    }
 }

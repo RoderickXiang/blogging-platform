@@ -1,6 +1,7 @@
 package com.roderick.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,12 +11,14 @@ import com.roderick.mapper.UserMapper;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
 import com.roderick.service.ArticleService;
+import com.roderick.util.ThreadPoolUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -23,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleMapper articleMapper;
     ArticleCategoryMapper articleCategoryMapper;
     UserMapper userMapper;
+    ThreadPoolUtil poolUtil;
 
     @Autowired
     public void setArticleMapper(ArticleMapper articleMapper) {
@@ -37,6 +41,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    @Autowired
+    public void setPoolUtil(ThreadPoolUtil poolUtil) {
+        this.poolUtil = poolUtil;
     }
 
     @Override
@@ -86,6 +95,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void asyncIncreaseViews(Long id) {
-
+        ExecutorService threadPool = poolUtil.getThreadPool();
+        threadPool.execute(() -> {
+            //使用重写的方法
+            articleMapper.increaseViewsById(id);
+        });
     }
 }
