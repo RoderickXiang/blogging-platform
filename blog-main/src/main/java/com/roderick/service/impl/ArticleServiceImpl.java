@@ -85,7 +85,21 @@ public class ArticleServiceImpl implements ArticleService {
         if (size == null || size <= 0) {
             size = 20;
         }
-        return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>().orderByDesc(true, "create_time"));
+        return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>()
+                .orderByDesc(true, "create_time"));
+    }
+
+    @Override
+    public Page<Article> getArticleListByPageAndUidOrderByTime(String uid, Integer page, Integer size) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        if (size == null || size <= 0) {
+            size = 20;
+        }
+        return articleMapper.selectPage(new Page<>(page, size), new QueryWrapper<Article>()
+                .eq("author_uid", uid)
+                .orderByDesc(true, "create_time"));
     }
 
     @Override

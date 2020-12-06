@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <title>用户</title>
+</head>
+
+<style>
+    #user-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        user-select: none;
+        margin-top: 24px;
+    }
+
+    #main-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        user-select: none;
+        margin-top: 24px;
+    }
+</style>
+
+<body>
+<div th:replace="~{common/navigationbar::navigationbar('')}"></div>
+
+
+<div class="d-flex justify-content-between container">
+    <!--左边栏-->
+    <div class="d-flex flex-column col-md-4">
+        <!--作者信息-->
+        <div id="user-container">
+            <div class="text-center">
+                <img th:src="@{/image/test-avatar.jpg}" class="rounded" alt="...">
+            </div>
+            <h5 style="text-align: center" th:text="${user.getUsername()}"></h5>
+            <table class="table table-borderless table-sm">
+                <thead>
+                <tr>
+                    <th scope="col" style="text-align: center" class="text-muted">文章</th>
+                    <th scope="col" style="text-align: center" class="text-muted">浏览</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: center">
+                        <a class="text text-decoration-none text-info" href="#" th:text="${user.getPosts()}"></a>
+                    </td>
+                    <!--todo 浏览量-->
+                    <td style="text-align: center">
+                        <a class="text text-decoration-none text-muted">3000</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--右边栏-->
+    <div class="d-flex flex-column col-md-8">
+        <div id="main-container">
+            <!--Tag 标签-->
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">发布的文章</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">问答</a>
+                    </li>
+                </ul>
+            </div>
+            <!--内容-->
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</body>
+</html>

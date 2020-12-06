@@ -95,6 +95,9 @@ public class User {
     }
 
     public Integer getPosts() {
+        if (this.posts == null){
+            return 0;
+        }
         return posts;
     }
 
