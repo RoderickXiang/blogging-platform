@@ -123,7 +123,7 @@
             }
 
             /*Ajax发送异步登入请求*/
-            $.post("login", {username: $username.val(), password: $password.val()}, function (result) {
+            $.post("/login", {username: $username.val(), password: $password.val()}, function (result) {
                 if (result["msg"] === "error") {
                     $("#fail").css("display", "");
                 } else if (result["msg"] === "success") {

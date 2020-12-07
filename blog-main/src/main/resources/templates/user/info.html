@@ -72,16 +72,36 @@
             <div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">发布的文章</a>
+                        <a class="nav-link active" href="javascript:void(0);" onclick="getArticles();">发布的文章</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">问答</a>
                     </li>
                 </ul>
             </div>
-            <!--内容-->
+            <!--文章内容-->
             <div>
-
+                <table class="table table-sm table-hover table-striped table-borderless">
+                    <thead>
+                    <tr>
+                        <!--调整每列宽度-->
+                        <th scope="col" style="width: 50%"></th>
+                        <th scope="col" style="width: 30%"></th>
+                        <th scope="col" style="width: 20%"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="content-table">
+                    <tr>
+                        <td>
+                            <a th:href="@{'/blog/article' + '/'}">名字</a>
+                        </td>
+                        <td>
+                            <a class="text-decoration-none text-break" th:href="@{'/user'+'/'}">作者</a>
+                        </td>
+                        <td class="font-weight-light text-muted" th:href="sdasda">2020-12-12</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -92,5 +112,34 @@
 <script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    $(function () {
+        getArticles();
+    });
+
+    let uid = [[${user.getUid()}]];
+
+    //异步获取文章
+    function getArticles() {
+        $.get("/api/article/" + uid, function (data) {
+            //渲染表格
+            for (const article of data["records"]) {
+                console.log(article);
+                $("#content-table").append(
+                    '<tr>' +
+                    '    <td>' +
+                    '        <a href="/blog/article">名字</a>' +
+                    '    </td>' +
+                    '    <td>' +
+                    '        <a class="text-decoration-none text-break">作者</a>' +
+                    '    </td>' +
+                    '    <td class="font-weight-light text-muted">2020-12-12</td>' +
+                    '</tr>'
+                    /*article["title"]*/
+                )
+            }
+        });
+    }
+</script>
 </body>
 </html>

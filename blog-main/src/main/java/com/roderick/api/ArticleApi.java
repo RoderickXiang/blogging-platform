@@ -26,7 +26,7 @@ public class ArticleApi {
      * @param size 每页数据的条数 default 20
      * @return 页面对象序列化为json
      */
-    @GetMapping("/{uid}/{page}/{size}")
+    @GetMapping({"/{uid}/{page}/{size}", "/{uid}"})
     public ResponseEntity<Page<Article>> getArticleListByUid(@PathVariable String uid,
                                                              @PathVariable(required = false) Integer page,
                                                              @PathVariable(required = false) Integer size) {
