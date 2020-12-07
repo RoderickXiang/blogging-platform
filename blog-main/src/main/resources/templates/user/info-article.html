@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
 
-    <title>用户</title>
+    <title th:text="${user.getUsername()}"></title>
 </head>
 
 <style>
@@ -54,7 +54,7 @@
                 <tbody>
                 <tr>
                     <td style="text-align: center">
-                        <a class="text text-decoration-none text-info" href="#" th:text="${user.getPosts()}"></a>
+                        <a class="text text-decoration-none text-info" href="#" th:text="${pageArticle.getTotal()}"></a>
                     </td>
                     <!--todo 浏览量-->
                     <td style="text-align: center">
@@ -72,7 +72,8 @@
             <div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);" onclick="getArticles();">发布的文章</a>
+                        <a class="nav-link active"
+                           th:href="@{'/user/' + ${user.getUid()} + '/article'}">发布的文章</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">问答</a>
@@ -86,22 +87,21 @@
                     <tr>
                         <!--调整每列宽度-->
                         <th scope="col" style="width: 50%"></th>
-                        <th scope="col" style="width: 30%"></th>
                         <th scope="col" style="width: 20%"></th>
                     </tr>
                     </thead>
                     <tbody id="content-table">
-                    <tr>
+                    <tr th:each="article : ${pageArticle.getRecords()}">
                         <td>
-                            <a th:href="@{'/blog/article' + '/'}">名字</a>
+                            <a th:href="@{'/blog/article/' + ${article.getId()}}" th:text="${article.getTitle()}"></a>
                         </td>
-                        <td>
-                            <a class="text-decoration-none text-break" th:href="@{'/user'+'/'}">作者</a>
-                        </td>
-                        <td class="font-weight-light text-muted" th:href="sdasda">2020-12-12</td>
+                        <td class="font-weight-light text-muted" th:text="${article.getFormattedCreateTime()}"></td>
                     </tr>
                     </tbody>
                 </table>
+                <!--分页-->
+                <div th:replace="~{common/page-navigation-common::page-navigation-common(${pageArticle.getCurrent()},5,${totalPage},
+                '/user/' + ${user.getUid()} + '/article')}"></div>
             </div>
         </div>
     </div>
@@ -112,34 +112,5 @@
 <script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
-<script th:inline="javascript">
-    $(function () {
-        getArticles();
-    });
-
-    let uid = [[${user.getUid()}]];
-
-    //异步获取文章
-    function getArticles() {
-        $.get("/api/article/" + uid, function (data) {
-            //渲染表格
-            for (const article of data["records"]) {
-                console.log(article);
-                $("#content-table").append(
-                    '<tr>' +
-                    '    <td>' +
-                    '        <a href="/blog/article">名字</a>' +
-                    '    </td>' +
-                    '    <td>' +
-                    '        <a class="text-decoration-none text-break">作者</a>' +
-                    '    </td>' +
-                    '    <td class="font-weight-light text-muted">2020-12-12</td>' +
-                    '</tr>'
-                    /*article["title"]*/
-                )
-            }
-        });
-    }
-</script>
 </body>
 </html>
