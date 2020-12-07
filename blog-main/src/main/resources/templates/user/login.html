@@ -71,7 +71,7 @@
         }
     </style>
 </head>
-<body class="text-center">
+<body style="text-align: center">
 <form class="form-signin" id="submit" action="/login" method="post">
     <img class="mb-4" th:src="@{/image/bootstrap-solid.svg}" alt="没有加载的可怜图片" width="72" height="72"
          src="../../static/image/bootstrap-solid.svg">
@@ -82,8 +82,11 @@
     <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required autofocus>
     <label for="password" class="sr-only">密码</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
+    <div>
+        <a th:href="@{/register}">没有账号，我想入驻社区</a><br>
+    </div>
 
-    <div class="row">
+    <div class="row" style="margin-top: 15px">
         <div class="col">
             <a class="btn btn-lg btn-secondary btn-block" href="/index" type="button">返回</a>
         </div>

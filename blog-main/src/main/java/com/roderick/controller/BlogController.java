@@ -73,8 +73,10 @@ public class BlogController {
         model.addAttribute("article", article);
         User author = userService.getUserByUid(article.getAuthorUid());
 
-        author.setPassword(""); //清除敏感信息
-        author.setPosts(userService.getPostsByUid(article.getAuthorUid())); //发布的文章数
+        if (author != null) {
+            author.setPassword(""); //清除敏感信息
+            author.setPosts(userService.getPostsByUid(article.getAuthorUid())); //发布的文章数
+        }
         //作者信息
         model.addAttribute("author", author);
         return "blog/article";

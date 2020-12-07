@@ -17,8 +17,8 @@ public class LoginController {
         return "user/login";
     }
 
-    @RequestMapping("/fail")
-    public String error() {
-        return "error";
+    @GetMapping("/register")
+    public String registerPage() {
+        return "user/register";
     }
 }
