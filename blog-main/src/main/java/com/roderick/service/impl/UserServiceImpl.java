@@ -8,6 +8,8 @@ import com.roderick.pojo.Article;
 import com.roderick.pojo.User;
 import com.roderick.pojo.UserRole;
 import com.roderick.service.UserService;
+import com.roderick.util.UUIDUtil;
+import com.roderick.vo.RegisterFrom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("用户名未找到");
         }
         //获取用户角色
-        UserRole userRole = userRoleMapper.selectById(realUser.getId());
+        UserRole userRole = userRoleMapper.selectById(realUser.getRoleId());
 
         //设置session --其实应该放在登入验证之后
         session.setAttribute("loginUser", realUser);
@@ -84,5 +87,19 @@ public class UserServiceImpl implements UserService {
     public Boolean checkUsername(String username) {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         return user == null;
+    }
+
+    @Override
+    public void createUser(RegisterFrom registerFrom) {
+        User user = new User();
+        user.setUid(UUIDUtil.getUUID());
+        if (registerFrom.getUsername() !=null){
+            user.setUsername(registerFrom.getUsername());
+        }
+        String encode = passwordEncoder.encode(registerFrom.getPassword());
+        user.setPassword(encode);
+        user.setRoleId(1);
+        user.setIsDeleted(0);
+        userMapper.insert(user);
     }
 }

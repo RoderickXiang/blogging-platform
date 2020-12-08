@@ -1,6 +1,7 @@
 package com.roderick.service;
 
 import com.roderick.pojo.User;
+import com.roderick.vo.RegisterFrom;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -18,4 +19,10 @@ public interface UserService extends UserDetailsService {
      * @param username 被验证的用户名
      */
     Boolean checkUsername(String username);
+
+    /**
+     * 创建用户
+     * @param registerFrom 前端传来的新用户表单
+     */
+    void createUser(RegisterFrom registerFrom);
 }
