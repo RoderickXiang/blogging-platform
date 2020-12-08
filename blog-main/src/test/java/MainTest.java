@@ -49,7 +49,7 @@ public class MainTest {
 
     @Test
     public void userTest() {
-        System.out.println(userRoleMapper.selectById(1));
+        System.out.println(userService.checkUsername("RoderickXiang"));
     }
 
     @Test

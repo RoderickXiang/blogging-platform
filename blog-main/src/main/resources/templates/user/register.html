@@ -12,11 +12,78 @@
 </head>
 <body>
 <div th:replace="~{common/navigationbar::navigationbar('')}"></div>
+<div class="container">
+    <form action="/register" method="post" id="register-from" style="width: 50%;margin: 30px auto 0;">
+        <div class="form-group">
+            <label for="username" class="text-info">用户名</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="用户名"
+                   onblur="checkUsername()">
+            <small class="form-text text-muted">找你对线的途径，尽量别搞些花里胡哨的东西</small>
+            <label for="username" class="invalid-feedback" id="username-invalid-message"></label>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="text-secondary">密码</label>
+            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="密码">
+        </div>
+        <div class="form-group">
+            <label for="inputCheckPassword" class="text-secondary">再输一次</label>
+            <input type="password" class="form-control" id="inputCheckPassword" name="password" placeholder="再输一次">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="register()">加入社区</button>
+    </form>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+
+    });
+
+    function checkUsername() {
+        let $username = $("#username");
+        if ($username.val() === "") {
+            $username.attr("class", "form-control is-invalid");
+            $("#username-invalid-message").html("用户名不得为空");
+            return false;
+        } else {
+            //异步验证用户名是否可用
+            return $.get("/user/check/" + $username.val(), function (data) {
+                if (data["msg"] === "allow") {
+                    $username.attr("class", "form-control is-valid");
+                    return true;
+                } else {
+                    $username.attr("class", "form-control is-invalid");
+                    $("#username-invalid-message").html("该用户名已被注册");
+                    return false;
+                }
+            });
+        }
+    }
+
+    function checkPassword() {
+        let p1 = $("#inputPassword");
+        let p2 = $("#inputCheckPassword");
+        if (p1.val() === p2.val()) {
+            return true;
+        } else {
+            p1.attr("class","form-control is-invalid");
+            p2.attr("class","form-control is-invalid");
+            return false;
+        }
+    }
+
+    function register() {
+        console.log(checkPassword());
+        console.log(checkUsername());
+        if (checkUsername() && checkPassword()) {
+            //提交最终请求
+            $("#register-from").submit();
+        }
+    }
+</script>
 </body>
 </html>

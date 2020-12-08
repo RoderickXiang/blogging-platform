@@ -79,4 +79,10 @@ public class UserServiceImpl implements UserService {
     public Integer getPostsByUid(String uid) {
         return articleMapper.selectCount(new QueryWrapper<Article>().eq("author_uid", uid));
     }
+
+    @Override
+    public Boolean checkUsername(String username) {
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
+        return user == null;
+    }
 }
