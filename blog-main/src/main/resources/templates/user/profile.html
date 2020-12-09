@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <title th:text="${session.loginUser.getUsername()} + '的资料'"></title>
+</head>
+
+<style>
+    #user-avatar {
+        margin-top: 24px;
+    }
+
+    #user-info{
+        margin-top: 24px;
+    }
+</style>
+
+<body>
+<div th:replace="~{common/navigationbar::navigationbar('')}"></div>
+<div class="container">
+    <div class="d-flex justify-content-between container">
+        <!--左边栏-->
+        <div id="user-avatar" class="d-flex flex-column col-md-4">
+            <!--头像-->
+            <img th:src="@{/image/idea_wallpaper.png}" alt="..." class="rounded-lg" style="width: 300px;height: 300px">
+        </div>
+        <!--右边栏用户可修改的信息-->
+        <div id="user-info" class="d-flex flex-column col-md-8">
+            <form th:class="text-muted">
+                <div class="form-group row">
+                    <label for="inputUsername" class="col-sm-2 col-form-label">用户名：</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="inputUsername">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">密码：</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" id="inputPassword">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -52,11 +52,21 @@ public class UserController {
         User user = userService.getUserByUid(uid);
         user.setPassword("");   //清除密码
         Page<Article> pageArticle = articleService.getArticleListByPageAndUidOrderByTime(uid, page, size);
+        Long totalPage = pageUtil.getTotalPage(pageArticle.getTotal(), pageArticle.getSize());
 
         model.addAttribute("user", user);   //用户对象
         model.addAttribute("pageArticle", pageArticle); //页面对象
-        model.addAttribute("totalPage",
-                pageUtil.getTotalPage(pageArticle.getTotal(), pageArticle.getSize()));  //页面总数用于做分页
+        model.addAttribute("totalPage", totalPage);  //页面总数用于做分页
         return "user/info-article";
+    }
+
+    /**
+     * 更新用户信息页面，包含头像，简介之类的信息
+     * @param uid 用户uid
+     * @return 更新用户信息页面
+     */
+    @GetMapping("/update/{uid}")
+    public String userUpdatePage(@PathVariable String uid) {
+        return "user/profile";
     }
 }

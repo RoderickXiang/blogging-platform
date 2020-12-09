@@ -41,7 +41,7 @@
         <!--作者信息-->
         <div id="user-container">
             <div class="text-center">
-                <img th:src="@{/image/test-avatar.jpg}" class="rounded" alt="...">
+                <img th:src="@{/image/test-avatar.jpg}" class="rounded" alt="..." style="width: 75px;height: 75px">
             </div>
             <h5 style="text-align: center" th:text="${user.getUsername()}"></h5>
             <table class="table table-borderless table-sm">
@@ -81,6 +81,7 @@
                 </ul>
             </div>
             <!--文章内容-->
+            <p th:if="${totalPage <= 0}" th:class="text-muted" th:text="'没有发布任何文章~~'" style="margin-top: 15px"></p>
             <div>
                 <table class="table table-sm table-hover table-striped table-borderless">
                     <thead>
