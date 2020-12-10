@@ -25,4 +25,10 @@ public interface UserService extends UserDetailsService {
      * @param registerFrom 前端传来的新用户表单
      */
     void createUser(RegisterFrom registerFrom);
+
+    /**
+     * 更新用户
+     * @param user 用户对象
+     */
+    void updateUser(User user);
 }

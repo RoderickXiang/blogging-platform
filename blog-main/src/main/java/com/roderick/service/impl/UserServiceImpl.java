@@ -91,9 +91,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(RegisterFrom registerFrom) {
+        //todo 创建userinfo
         User user = new User();
         user.setUid(UUIDUtil.getUUID());
-        if (registerFrom.getUsername() !=null){
+        if (registerFrom.getUsername() != null) {
             user.setUsername(registerFrom.getUsername());
         }
         String encode = passwordEncoder.encode(registerFrom.getPassword());
@@ -101,5 +102,10 @@ public class UserServiceImpl implements UserService {
         user.setRoleId(1);
         user.setIsDeleted(0);
         userMapper.insert(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userMapper.updateById(user);
     }
 }

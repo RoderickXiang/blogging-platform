@@ -3,9 +3,12 @@ package com.roderick.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.User;
+import com.roderick.pojo.UserInfo;
 import com.roderick.service.ArticleService;
+import com.roderick.service.UserInfoService;
 import com.roderick.service.UserService;
 import com.roderick.util.PageUtil;
+import com.roderick.vo.UserInfoFrom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     UserService userService;
+    UserInfoService userInfoService;
     ArticleService articleService;
     PageUtil pageUtil;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setUserInfoService(UserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
     }
 
     @Autowired
@@ -63,15 +72,20 @@ public class UserController {
 
     /**
      * 更新用户信息页面，包含头像，简介之类的信息
+     *
      * @param uid 用户uid
      * @return 更新用户信息页面
      */
     @GetMapping("/update/{uid}")
-    public String userUpdatePage(@PathVariable String uid) {
-
+    public String userUpdatePage(@PathVariable String uid, Model model) {
+        UserInfo userInfo = userInfoService.getUserInfoByUid(uid);
+        model.addAttribute("userInfo", userInfo);
         return "user/profile";
     }
 
-    /*@PostMapping("/update/{uid}")
-    public String*/
+    @PostMapping("/update")
+    public String updateUserInfo(UserInfoFrom userInfoFrom) {
+        userInfoService.updateUserInfo(userInfoFrom);
+        return "redirect:/user/update/" + userInfoFrom.getUid();
+    }
 }

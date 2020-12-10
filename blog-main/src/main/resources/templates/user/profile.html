@@ -32,15 +32,19 @@
         </div>
         <!--右边栏用户可修改的信息-->
         <div id="user-info" class="d-flex flex-column col-md-8">
-            <form th:action="'/user/update/' + ${session.loginUser.getUid()}" th:class="text-muted" method="post">
+            <form th:action="'/user/update'" th:class="text-muted" method="post">
                 <h5 style="font-weight: bold">基本信息</h5>
                 <hr class="my-4">
+                <!--隐藏表单-->
+                <label>
+                    <input type="text" hidden="hidden" name="uid" th:value="${session.loginUser.getUid()}">
+                </label>
                 <!--用户名-->
                 <div class="form-group row">
                     <label for="inputUsername" class="col-sm-2 col-form-label">用户名：</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="inputUsername" name="username"
-                               th:text="${session.loginUser.getUsername()}">
+                               th:value="${session.loginUser.getUsername()}">
                     </div>
                 </div>
                 <!--性别-->
@@ -49,7 +53,7 @@
                     <div id="gender-options" style="margin-left: 15px">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="gender" id="inputMale"
-                                   value="1" checked>
+                                   value="1">
                             <label class="form-check-label" for="inputMale">男</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -68,21 +72,21 @@
                 <div class="form-group row">
                     <label for="inputBirthday" class="col-md-2 control-label">出生日期：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputBirthday" name="birthday" value=""/>
+                        <input type="text" class="form-control" id="inputBirthday" name="birthday" th:value="${userInfo.getFormattedBirthday()}"/>
                     </div>
                 </div>
                 <!--密码-->
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">密码：</label>
                     <div class="col-sm-8">
-                        <input type="password" class="form-control" id="inputPassword" name="password">
+                        <input type="password" class="form-control" id="inputPassword" name="password" placeholder="请谨慎修改密码~~">
                     </div>
                 </div>
                 <!--个人信息-->
                 <div class="form-group row">
                     <label for="inputSignature" class="col-sm-2 col-form-label">个人简介：</label>
                     <div class="col-sm-8">
-                        <textarea type="password" class="form-control" id="inputSignature" name="signature"></textarea>
+                        <textarea type="password" class="form-control" id="inputSignature" name="signature" th:text="${userInfo.getSignature()}"></textarea>
                     </div>
                 </div>
 
@@ -91,7 +95,7 @@
                 <div class="form-group row">
                     <label for="inputPersonalWebsite" class="col-sm-2 col-form-label">个人网站：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website">
+                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website" th:value="${userInfo.getWebsite()}">
                     </div>
                 </div>
                 <button type="submit" id="summit-button" class="btn btn-primary btn-lg col-md-offset-4"
@@ -108,9 +112,16 @@
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/laydate/laydate.js}"></script>
-<script>
+<script th:inline="javascript">
     $(function () {
-        let gander = [[${session.user.name}]];
+        let gander = [[${userInfo.getGender()}]];
+        if (gander === 0) {
+            $("#inputKeepGenderSecret").attr("checked","");
+        } else if (gander === 1) {
+            $("#inputMale").attr("checked","");
+        } else {
+            $("#inputFemale").attr("checked","");
+        }
     });
 
     //日期实例
