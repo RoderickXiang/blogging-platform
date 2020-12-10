@@ -11,8 +11,10 @@ public class UserInfoFrom implements Serializable {
     private String username;
     private Integer gender;
     private String birthday;
-    private String password;
+    private String email;
+    private String mobile;
     private String signature;
+    private String github;
     private String website;
 
     public String getUid() {
@@ -47,12 +49,20 @@ public class UserInfoFrom implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getSignature() {
@@ -61,6 +71,14 @@ public class UserInfoFrom implements Serializable {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public String getGithub() {
+        return github;
+    }
+
+    public void setGithub(String github) {
+        this.github = github;
     }
 
     public String getWebsite() {
@@ -78,8 +96,10 @@ public class UserInfoFrom implements Serializable {
                 ", username='" + username + '\'' +
                 ", gender=" + gender +
                 ", birthday='" + birthday + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
                 ", signature='" + signature + '\'' +
+                ", github='" + github + '\'' +
                 ", website='" + website + '\'' +
                 '}';
     }

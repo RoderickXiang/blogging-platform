@@ -46,16 +46,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo userInfo = new UserInfo();
         userInfo.setUid(userInfoFrom.getUid());
 
-        //修改用户名
+        //用户名
         User user = userService.getUserByUid(userInfoFrom.getUid());
         if (!user.getUsername().equals(userInfoFrom.getUsername())) {
             user.setUsername(userInfoFrom.getUsername());
             userService.updateUser(user);
         }
-        //todo 修改密码
 
+        //性别
         userInfo.setGender(userInfoFrom.getGender());
-        //修改出生日期
+        //出生日期
         if (!"".equals(userInfoFrom.getBirthday())) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -65,9 +65,15 @@ public class UserInfoServiceImpl implements UserInfoService {
                 e.printStackTrace();
             }
         }
-        //修改签名
+        //Email
+        userInfo.setEmail(userInfoFrom.getEmail());
+        //手机号
+        userInfo.setMobile(userInfoFrom.getMobile());
+        //签名
         userInfo.setSignature(userInfoFrom.getSignature());
-        //修改个人网站
+        //GitHub
+        userInfo.setGithub(userInfoFrom.getGithub());
+        //个人网站
         userInfo.setWebsite(userInfoFrom.getWebsite());
         userInfoMapper.updateById(userInfo);
         //刷新session中登入的用户信息
