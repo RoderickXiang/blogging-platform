@@ -32,14 +32,15 @@
         </div>
         <!--右边栏用户可修改的信息-->
         <div id="user-info" class="d-flex flex-column col-md-8">
-            <form th:class="text-muted">
+            <form th:action="'/user/update/' + ${session.loginUser.getUid()}" th:class="text-muted" method="post">
                 <h5 style="font-weight: bold">基本信息</h5>
                 <hr class="my-4">
                 <!--用户名-->
                 <div class="form-group row">
                     <label for="inputUsername" class="col-sm-2 col-form-label">用户名：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputUsername">
+                        <input type="text" class="form-control" id="inputUsername" name="username"
+                               th:text="${session.loginUser.getUsername()}">
                     </div>
                 </div>
                 <!--性别-->
@@ -47,31 +48,41 @@
                     <label for="gender-options" class="col-sm-2 col-form-label">性别：</label>
                     <div id="gender-options" style="margin-left: 15px">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputMale" value="option1">
+                            <input class="form-check-input" type="radio" name="gender" id="inputMale"
+                                   value="1" checked>
                             <label class="form-check-label" for="inputMale">男</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputFemale" value="option2">
+                            <input class="form-check-input" type="radio" name="gender" id="inputFemale"
+                                   value="2">
                             <label class="form-check-label" for="inputFemale">女</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputKeepGenderSecret" value="option3">
+                            <input class="form-check-input" type="radio" name="gender"
+                                   id="inputKeepGenderSecret" value="0">
                             <label class="form-check-label" for="inputKeepGenderSecret">保密</label>
                         </div>
+                    </div>
+                </div>
+                <!--生日-->
+                <div class="form-group row">
+                    <label for="inputBirthday" class="col-md-2 control-label">出生日期：</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="inputBirthday" name="birthday" value=""/>
                     </div>
                 </div>
                 <!--密码-->
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">密码：</label>
                     <div class="col-sm-8">
-                        <input type="password" class="form-control" id="inputPassword">
+                        <input type="password" class="form-control" id="inputPassword" name="password">
                     </div>
                 </div>
                 <!--个人信息-->
                 <div class="form-group row">
                     <label for="inputSignature" class="col-sm-2 col-form-label">个人简介：</label>
                     <div class="col-sm-8">
-                        <textarea type="password" class="form-control" id="inputSignature"></textarea>
+                        <textarea type="password" class="form-control" id="inputSignature" name="signature"></textarea>
                     </div>
                 </div>
 
@@ -80,9 +91,12 @@
                 <div class="form-group row">
                     <label for="inputPersonalWebsite" class="col-sm-2 col-form-label">个人网站：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPersonalWebsite">
+                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website">
                     </div>
                 </div>
+                <button type="submit" id="summit-button" class="btn btn-primary btn-lg col-md-offset-4"
+                        style="float: right;margin-right: 120px">提交
+                </button>
             </form>
         </div>
     </div>
@@ -93,5 +107,16 @@
 <script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/laydate/laydate.js}"></script>
+<script>
+    $(function () {
+        let gander = [[${session.user.name}]];
+    });
+
+    //日期实例
+    laydate.render({
+        elem: '#inputBirthday' //指定元素
+    });
+</script>
 </body>
 </html>
