@@ -24,6 +24,14 @@ public class UserInfo implements Serializable {
     @TableField(exist = false)
     private String formattedBirthday;   //前端格式化的时间 yyyy-MM-dd
 
+    public UserInfo() {
+
+    }
+
+    public UserInfo(String uid) {
+        this.uid = uid;
+    }
+
     public String getUid() {
         return uid;
     }

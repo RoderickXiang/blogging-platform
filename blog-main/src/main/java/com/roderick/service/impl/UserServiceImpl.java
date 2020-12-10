@@ -6,7 +6,9 @@ import com.roderick.mapper.UserMapper;
 import com.roderick.mapper.UserRoleMapper;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.User;
+import com.roderick.pojo.UserInfo;
 import com.roderick.pojo.UserRole;
+import com.roderick.service.UserInfoService;
 import com.roderick.service.UserService;
 import com.roderick.util.UUIDUtil;
 import com.roderick.vo.RegisterFrom;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService {
     UserRoleMapper userRoleMapper;
     PasswordEncoder passwordEncoder;
     HttpSession session;
+    UserInfoService userInfoService;
 
     @Autowired
     public void setArticleMapper(ArticleMapper articleMapper) {
@@ -52,6 +56,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public void setSession(HttpSession session) {
         this.session = session;
+    }
+
+    @Autowired
+    public void setUserInfoService(UserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
     }
 
     //自定义登入逻辑
@@ -91,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(RegisterFrom registerFrom) {
-        //todo 创建userinfo
+        //创建用户
         User user = new User();
         user.setUid(UUIDUtil.getUUID());
         if (registerFrom.getUsername() != null) {
@@ -102,6 +111,10 @@ public class UserServiceImpl implements UserService {
         user.setRoleId(1);
         user.setIsDeleted(0);
         userMapper.insert(user);
+
+        //创建用户详情
+        UserInfo userInfo = new UserInfo(user.getUid());
+        userInfoService.createUserInfo(userInfo);
     }
 
     @Override

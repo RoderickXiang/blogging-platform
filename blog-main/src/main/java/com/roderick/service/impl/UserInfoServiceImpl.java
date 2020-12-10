@@ -73,4 +73,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         //刷新session中登入的用户信息
         httpSession.setAttribute("loginUser", userService.getUserByUid(userInfoFrom.getUid()));
     }
+
+    @Override
+    public void createUserInfo(UserInfo userInfo) {
+        userInfoMapper.insert(userInfo);
+    }
 }
