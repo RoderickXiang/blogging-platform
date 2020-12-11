@@ -6,5 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Test {
 
-
+    @RequestMapping("/test")
+    public String test(){
+        return "user/index";
+    }
 }

@@ -7,8 +7,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
-
     <title th:text="${session.loginUser.getUsername()} + '的资料'"></title>
+
+    <!--头像上传组件-->
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css"/>
+    <link rel="stylesheet" th:href="@{/css/cropper.min.css}">
+    <link rel="stylesheet" th:href="@{/css/ImgCropping.css}">
 </head>
 
 <style>
@@ -29,7 +33,13 @@
         <div id="user-avatar" class="d-flex flex-column col-md-4">
             <!--头像-->
             <img th:src="@{/image/idea_wallpaper.png}" alt="..." class="rounded-lg" style="width: 300px;height: 300px">
+            <!--头像上传-->
+            <button type="button" class="btn btn-outline-primary" id="uploadAvatar"
+                    style="width: 300px;margin-top: 35px">
+                <i class="layui-icon layui-icon-upload"></i>更换头像
+            </button>
         </div>
+
         <!--右边栏用户可修改的信息-->
         <div id="user-info" class="d-flex flex-column col-md-8">
             <form th:action="'/user/update'" th:class="text-muted" method="post">
@@ -72,28 +82,32 @@
                 <div class="form-group row">
                     <label for="inputBirthday" class="col-md-2 control-label">出生日期：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputBirthday" name="birthday" th:value="${userInfo.getFormattedBirthday()}"/>
+                        <input type="text" class="form-control" id="inputBirthday" name="birthday"
+                               th:value="${userInfo.getFormattedBirthday()}"/>
                     </div>
                 </div>
                 <!--邮箱-->
                 <div class="form-group row">
                     <label for="inputEmail" class="col-sm-2 col-form-label">邮箱：</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="inputEmail" name="email" th:value="${userInfo.getEmail()}">
+                        <input type="email" class="form-control" id="inputEmail" name="email"
+                               th:value="${userInfo.getEmail()}">
                     </div>
                 </div>
                 <!--手机-->
                 <div class="form-group row">
                     <label for="inputMobile" class="col-sm-2 col-form-label">手机：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputMobile" name="mobile" th:value="${userInfo.getMobile()}">
+                        <input type="text" class="form-control" id="inputMobile" name="mobile"
+                               th:value="${userInfo.getMobile()}">
                     </div>
                 </div>
                 <!--个人信息-->
                 <div class="form-group row">
                     <label for="inputSignature" class="col-sm-2 col-form-label">个人简介：</label>
                     <div class="col-sm-8">
-                        <textarea type="password" class="form-control" id="inputSignature" name="signature" th:text="${userInfo.getSignature()}"></textarea>
+                        <textarea type="password" class="form-control" id="inputSignature" name="signature"
+                                  th:text="${userInfo.getSignature()}"></textarea>
                     </div>
                 </div>
 
@@ -103,14 +117,16 @@
                 <div class="form-group row">
                     <label for="inputGitHub" class="col-sm-2 col-form-label">GitHub用户名：</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="inputGitHub" name="github" th:value="${userInfo.getGithub()}">
+                        <input type="text" class="form-control" id="inputGitHub" name="github"
+                               th:value="${userInfo.getGithub()}">
                     </div>
                 </div>
                 <!--个人网站-->
                 <div class="form-group row">
                     <label for="inputPersonalWebsite" class="col-sm-2 col-form-label">个人网站：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website" th:value="${userInfo.getWebsite()}">
+                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website"
+                               th:value="${userInfo.getWebsite()}">
                     </div>
                 </div>
 
@@ -129,21 +145,36 @@
 <script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
 <script th:src="@{/laydate/laydate.js}"></script>
+<!--Layui-->
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
 <script th:inline="javascript">
     $(function () {
         let gander = [[${userInfo.getGender()}]];
         if (gander === 0) {
-            $("#inputKeepGenderSecret").attr("checked","");
+            $("#inputKeepGenderSecret").attr("checked", "");
         } else if (gander === 1) {
-            $("#inputMale").attr("checked","");
+            $("#inputMale").attr("checked", "");
         } else {
-            $("#inputFemale").attr("checked","");
+            $("#inputFemale").attr("checked", "");
         }
     });
 
     //日期实例
     laydate.render({
         elem: '#inputBirthday' //指定元素
+    });
+
+    layui.config({
+        base: '/js/'
+    }).use('avatar', function () {
+        let avatar = layui.avatar;
+        avatar.render({
+            success: function (base64, size) {
+                console.log(base64);
+                console.log(size);
+                //todo 异步上传
+            }
+        });
     });
 </script>
 </body>
