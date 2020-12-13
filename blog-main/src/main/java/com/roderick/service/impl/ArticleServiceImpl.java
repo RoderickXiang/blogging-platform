@@ -10,6 +10,7 @@ import com.roderick.mapper.ArticleMapper;
 import com.roderick.mapper.UserMapper;
 import com.roderick.pojo.Article;
 import com.roderick.pojo.ArticleCategory;
+import com.roderick.pojo.User;
 import com.roderick.service.ArticleService;
 import com.roderick.util.ThreadPoolUtil;
 import com.roderick.vo.ArticleFrom;
@@ -57,7 +58,8 @@ public class ArticleServiceImpl implements ArticleService {
         //设置作者
         if (articleFrom.getUid() != null) {
             article.setAuthorUid(articleFrom.getUid());
-            article.setAuthorName(userMapper.selectById(articleFrom.getUid()).getUsername());
+            User user = userMapper.selectOne(new QueryWrapper<User>().eq("uid", articleFrom.getUid()));
+            article.setAuthorName(user.getUsername());
         }
         //json设置文章类别
         String json = null;

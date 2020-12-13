@@ -173,6 +173,7 @@
                 console.log(base64);
                 console.log(size);
                 //todo 异步上传
+                $.post("/avatar", {image: base64});
             }
         });
     });

@@ -38,6 +38,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //所有请求被拦截 --试试不拦截全部请求，只是验证权限
                 /*.anyRequest().authenticated();*/
 
+        //防止iframe markdown 跨域问题
+        http.headers().frameOptions().disable();
+
         //关闭csrf
         http.csrf().disable();
         //注销
