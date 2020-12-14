@@ -1,5 +1,8 @@
 package com.roderick.api;
 
+import com.roderick.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +16,16 @@ import java.util.Map;
 @RestController
 public class ImageApi {
 
+    @Value("${file.server.image-article}")
+    String IMAGE_ARTICLE_PREFIX; //文章中图片在服务器中地址的前缀
+
+    FileService fileService;
+
+    @Autowired
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
+    }
+
     /**
      * 上传头像
      *
@@ -23,15 +36,27 @@ public class ImageApi {
         System.out.println(image);
     }
 
-    @PostMapping("/upload-image")
+
+    /**
+     * markdown图床存储图片
+     *
+     * @param file 图片
+     */
+    @PostMapping("/upload/image")
     public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
-        System.out.println(file.getName());
-        System.out.println(file.isEmpty());
-        System.out.println(file.getSize());
+        //上传文件到文件服务器文件夹
+        String fileName = fileService.uploadImageToFolder(file);
+
+        //返回json结果
         Map<String, Object> map = new HashMap<>();
-        map.put("success", 1);
-        map.put("message", "上传成功");
-        map.put("url", "http://localhost:8081/image/v2-13cc8d463e1ac9cd2bfbd7fbd62e05f2_hd.jpg");
+        if (fileName != null) {
+            map.put("success", 1);
+            map.put("message", "上传成功");
+            map.put("url", IMAGE_ARTICLE_PREFIX + '/' + fileName);
+        } else {
+            map.put("success", 0);
+            map.put("message", "上传失败");
+        }
         return ResponseEntity.ok(map);
     }
 }

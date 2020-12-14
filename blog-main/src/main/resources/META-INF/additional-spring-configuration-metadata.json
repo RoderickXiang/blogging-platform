@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "image-article.folder",
+      "type": "java.lang.String",
+      "description": "Description for image-article.folder."
+    },
+    {
+      "name": "avatar.folder",
+      "type": "java.lang.String",
+      "description": "Description for avatar.folder."
+    },
+    {
+      "name": "file.server.image-article",
+      "type": "java.lang.String",
+      "description": "Description for file.server.image-article."
+    }
+  ]
+}

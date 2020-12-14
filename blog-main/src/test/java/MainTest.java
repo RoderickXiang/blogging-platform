@@ -53,7 +53,7 @@ public class MainTest {
 
     @Test
     public void userTest() {
-        System.out.println(passwordEncoder.matches("123","$2a$10$p3njf.B8jY3DxciAmKJoVuUSfxWBo9n5tA8idgthzGbxBTybKtTxG"));
+        System.out.println(passwordEncoder.matches("123", "$2a$10$p3njf.B8jY3DxciAmKJoVuUSfxWBo9n5tA8idgthzGbxBTybKtTxG"));
     }
 
     @Test
@@ -64,6 +64,6 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println("a.jpg".substring("a.jpg".lastIndexOf(".")));
     }
 }
