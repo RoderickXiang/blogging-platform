@@ -6,19 +6,25 @@ import com.roderick.pojo.Article;
 import com.roderick.pojo.UserRole;
 import com.roderick.service.ArticleService;
 import com.roderick.service.UserService;
+import com.roderick.util.Base64Util;
 import com.roderick.util.PageUtil;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
 @SpringBootTest(classes = StartApplication.class)
 public class MainTest {
+
+    @Value("${avatar.folder}")
+    String AVATAR_FOLDER;
 
     @Autowired
     ArticleMapper articleMapper;
@@ -32,6 +38,8 @@ public class MainTest {
     UserRoleMapper userRoleMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    Base64Util base64Util;
 
     @Test
     public void pageTest() {
@@ -61,6 +69,13 @@ public class MainTest {
         /*articleService.asyncIncreaseViews(2L);
         Thread.sleep(5000L);*/
         articleMapper.increaseViewsById(2L);
+    }
+
+    @Test
+    public void base64Test() {
+        String str = base64Util.file2Base64(new File("F:\\表情包\\640.png"));
+        File file = new File(AVATAR_FOLDER + "/" + "test.jpg");
+        base64Util.base64ToFile(str, file);
     }
 
     public static void main(String[] args) {

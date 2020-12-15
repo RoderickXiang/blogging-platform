@@ -14,6 +14,11 @@
       "name": "file.server.image-article",
       "type": "java.lang.String",
       "description": "Description for file.server.image-article."
+    },
+    {
+      "name": "file.server.avatar",
+      "type": "java.lang.String",
+      "description": "Description for file.server.avatar."
     }
   ]
 }

@@ -3,6 +3,7 @@ package com.roderick.api;
 import com.roderick.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,8 @@ public class ImageApi {
 
     @Value("${file.server.image-article}")
     String IMAGE_ARTICLE_PREFIX; //文章中图片在服务器中地址的前缀
+    @Value("${file.server.avatar}")
+    String AVATAR_PREFIX;   //头像在服务器中地址的前缀
 
     FileService fileService;
 
@@ -32,8 +35,19 @@ public class ImageApi {
      * @param image base64文件
      */
     @PostMapping("/avatar")
-    public void uploadAvatar(String image) {
-        System.out.println(image);
+    public ResponseEntity<Map<String, Object>> uploadAvatar(String image) {
+        String strBase64 = image.substring(image.lastIndexOf(',') + 1);
+        String fileName = fileService.uploadImageToFolder(strBase64);
+
+        //返回消息
+        Map<String, Object> result = new HashMap<>();
+        if (!"".equals(fileName)) {
+            result.put("success", 1);
+            result.put("message", "上传成功");
+            result.put("url", AVATAR_PREFIX + '/' + fileName);
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
 
@@ -48,15 +62,15 @@ public class ImageApi {
         String fileName = fileService.uploadImageToFolder(file);
 
         //返回json结果
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         if (fileName != null) {
-            map.put("success", 1);
-            map.put("message", "上传成功");
-            map.put("url", IMAGE_ARTICLE_PREFIX + '/' + fileName);
+            result.put("success", 1);
+            result.put("message", "上传成功");
+            result.put("url", IMAGE_ARTICLE_PREFIX + '/' + fileName);
         } else {
-            map.put("success", 0);
-            map.put("message", "上传失败");
+            result.put("success", 0);
+            result.put("message", "上传失败");
         }
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok(result);
     }
 }
