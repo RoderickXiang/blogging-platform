@@ -1,6 +1,7 @@
 package com.roderick.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.roderick.mapper.ArticleMapper;
 import com.roderick.mapper.UserMapper;
 import com.roderick.mapper.UserRoleMapper;
@@ -18,10 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -120,5 +119,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         userMapper.updateById(user);
+    }
+
+    @Override
+    public void updateUserAvatar(String uid, String avatar) {
+        User user = new User();
+        user.setAvatar(avatar);
+        userMapper.update(user, new UpdateWrapper<User>().eq("uid", uid));
+        //修改session更新头像信息
+        session.setAttribute("loginUser",this.getUserByUid(uid));
     }
 }

@@ -22,13 +22,20 @@ public interface UserService extends UserDetailsService {
 
     /**
      * 创建用户
+     *
      * @param registerFrom 前端传来的新用户表单
      */
     void createUser(RegisterFrom registerFrom);
 
     /**
      * 更新用户
+     *
      * @param user 用户对象
      */
     void updateUser(User user);
+
+    /**
+     * 更新用户头像
+     */
+    void updateUserAvatar(String uid, String avatar);
 }

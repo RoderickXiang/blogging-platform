@@ -10,7 +10,7 @@
     <title th:text="${session.loginUser.getUsername()} + '的资料'"></title>
 
     <!--头像上传组件-->
-    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css"/>
+    <!--<link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"/>-->
     <link rel="stylesheet" th:href="@{/css/cropper.min.css}">
     <link rel="stylesheet" th:href="@{/css/ImgCropping.css}">
 </head>
@@ -27,115 +27,125 @@
 
 <body>
 <div th:replace="~{common/navigationbar::navigationbar('')}"></div>
-<div class="container">
-    <div class="d-flex justify-content-between container">
-        <!--左边栏-->
-        <div id="user-avatar" class="d-flex flex-column col-md-4">
-            <!--头像-->
-            <img th:src="@{/image/idea_wallpaper.png}" alt="..." class="rounded-lg" style="width: 300px;height: 300px">
-            <!--头像上传-->
-            <button type="button" class="btn btn-outline-primary" id="uploadAvatar"
-                    style="width: 300px;margin-top: 35px">
-                <i class="layui-icon layui-icon-upload"></i>更换头像
-            </button>
+
+<div class="d-flex justify-content-between container">
+    <!--左边栏-->
+    <div id="user-avatar" class="d-flex flex-column col-md-4">
+        <!--用户有头像-->
+        <div th:if="${user.getAvatar()!=null && user.getAvatar()!=''}">
+            <img th:src="${user.getAvatar()}" alt="..." class="rounded-lg" style="width: 300px;height: 300px">
+        </div>
+        <!--用户没有头像-->
+        <div th:if="${user.getAvatar()==null || user.getAvatar()==''}">
+            <svg width="300px" height="300px" viewBox="0 0 16 16" class="bi bi-person-fill"
+                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+            </svg>
         </div>
 
-        <!--右边栏用户可修改的信息-->
-        <div id="user-info" class="d-flex flex-column col-md-8">
-            <form th:action="'/user/update'" th:class="text-muted" method="post">
-                <h5 style="font-weight: bold">基本信息</h5>
-                <hr class="my-4">
-                <!--隐藏表单-->
-                <label>
-                    <input type="text" hidden="hidden" name="uid" th:value="${session.loginUser.getUid()}">
-                </label>
-                <!--用户名-->
-                <div class="form-group row">
-                    <label for="inputUsername" class="col-sm-2 col-form-label">用户名：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputUsername" name="username"
-                               th:value="${session.loginUser.getUsername()}">
+        <!--头像上传-->
+        <button type="button" class="btn btn-outline-primary" id="uploadAvatar"
+                style="width: 300px;margin-top: 35px">
+            <i class="layui-icon layui-icon-upload"></i>更换头像
+        </button>
+    </div>
+
+    <!--右边栏用户可修改的信息-->
+    <div id="user-info" class="d-flex flex-column col-md-8">
+        <form th:action="'/user/profile'" th:class="text-muted" method="post">
+            <h5 style="font-weight: bold">基本信息</h5>
+            <hr class="my-4">
+            <!--隐藏表单-->
+            <label>
+                <input type="text" hidden="hidden" name="uid" th:value="${session.loginUser.getUid()}">
+            </label>
+            <!--用户名-->
+            <div class="form-group row">
+                <label for="inputUsername" class="col-sm-2 col-form-label">用户名：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="inputUsername" name="username"
+                           th:value="${session.loginUser.getUsername()}">
+                </div>
+            </div>
+            <!--性别-->
+            <div class="form-group row">
+                <label for="gender-options" class="col-sm-2 col-form-label">性别：</label>
+                <div id="gender-options" style="margin-left: 15px">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="inputMale"
+                               value="1">
+                        <label class="form-check-label" for="inputMale">男</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="inputFemale"
+                               value="2">
+                        <label class="form-check-label" for="inputFemale">女</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender"
+                               id="inputKeepGenderSecret" value="0">
+                        <label class="form-check-label" for="inputKeepGenderSecret">保密</label>
                     </div>
                 </div>
-                <!--性别-->
-                <div class="form-group row">
-                    <label for="gender-options" class="col-sm-2 col-form-label">性别：</label>
-                    <div id="gender-options" style="margin-left: 15px">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="inputMale"
-                                   value="1">
-                            <label class="form-check-label" for="inputMale">男</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="inputFemale"
-                                   value="2">
-                            <label class="form-check-label" for="inputFemale">女</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender"
-                                   id="inputKeepGenderSecret" value="0">
-                            <label class="form-check-label" for="inputKeepGenderSecret">保密</label>
-                        </div>
-                    </div>
+            </div>
+            <!--生日-->
+            <div class="form-group row">
+                <label for="inputBirthday" class="col-md-2 control-label">出生日期：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="inputBirthday" name="birthday"
+                           th:value="${userInfo.getFormattedBirthday()}"/>
                 </div>
-                <!--生日-->
-                <div class="form-group row">
-                    <label for="inputBirthday" class="col-md-2 control-label">出生日期：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputBirthday" name="birthday"
-                               th:value="${userInfo.getFormattedBirthday()}"/>
-                    </div>
+            </div>
+            <!--邮箱-->
+            <div class="form-group row">
+                <label for="inputEmail" class="col-sm-2 col-form-label">邮箱：</label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" id="inputEmail" name="email"
+                           th:value="${userInfo.getEmail()}">
                 </div>
-                <!--邮箱-->
-                <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">邮箱：</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="inputEmail" name="email"
-                               th:value="${userInfo.getEmail()}">
-                    </div>
+            </div>
+            <!--手机-->
+            <div class="form-group row">
+                <label for="inputMobile" class="col-sm-2 col-form-label">手机：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputMobile" name="mobile"
+                           th:value="${userInfo.getMobile()}">
                 </div>
-                <!--手机-->
-                <div class="form-group row">
-                    <label for="inputMobile" class="col-sm-2 col-form-label">手机：</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputMobile" name="mobile"
-                               th:value="${userInfo.getMobile()}">
-                    </div>
-                </div>
-                <!--个人信息-->
-                <div class="form-group row">
-                    <label for="inputSignature" class="col-sm-2 col-form-label">个人简介：</label>
-                    <div class="col-sm-8">
+            </div>
+            <!--个人信息-->
+            <div class="form-group row">
+                <label for="inputSignature" class="col-sm-2 col-form-label">个人简介：</label>
+                <div class="col-sm-8">
                         <textarea type="password" class="form-control" id="inputSignature" name="signature"
                                   th:text="${userInfo.getSignature()}"></textarea>
-                    </div>
                 </div>
+            </div>
 
-                <h5 style="font-weight: bold">个人站点</h5>
-                <hr class="my-4">
-                <!--GitHub地址-->
-                <div class="form-group row">
-                    <label for="inputGitHub" class="col-sm-2 col-form-label">GitHub用户名：</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="inputGitHub" name="github"
-                               th:value="${userInfo.getGithub()}">
-                    </div>
+            <h5 style="font-weight: bold">个人站点</h5>
+            <hr class="my-4">
+            <!--GitHub地址-->
+            <div class="form-group row">
+                <label for="inputGitHub" class="col-sm-2 col-form-label">GitHub用户名：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="inputGitHub" name="github"
+                           th:value="${userInfo.getGithub()}">
                 </div>
-                <!--个人网站-->
-                <div class="form-group row">
-                    <label for="inputPersonalWebsite" class="col-sm-2 col-form-label">个人网站：</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPersonalWebsite" name="website"
-                               th:value="${userInfo.getWebsite()}">
-                    </div>
+            </div>
+            <!--个人网站-->
+            <div class="form-group row">
+                <label for="inputPersonalWebsite" class="col-sm-2 col-form-label">个人网站：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputPersonalWebsite" name="website"
+                           th:value="${userInfo.getWebsite()}">
                 </div>
+            </div>
 
 
-                <button type="submit" id="summit-button" class="btn btn-primary btn-lg col-md-offset-4"
-                        style="float: right;margin-right: 120px">提交
-                </button>
-            </form>
-        </div>
+            <button type="submit" id="summit-button" class="btn btn-primary btn-lg col-md-offset-4"
+                    style="float: right;margin-right: 120px">提交
+            </button>
+        </form>
     </div>
 </div>
 
@@ -159,6 +169,8 @@
         }
     });
 
+    let uid = [[${userInfo.getUid()}]];
+
     //日期实例
     laydate.render({
         elem: '#inputBirthday' //指定元素
@@ -170,10 +182,16 @@
         let avatar = layui.avatar;
         avatar.render({
             success: function (base64, size) {
-                console.log(base64);
                 console.log(size);
-                //todo 异步上传
-                $.post("/avatar", {image: base64});
+                //异步上传头像
+                $.post("/upload/avatar", {image: base64, uid: uid}, function (data) {
+                    console.log(data);
+                    if (data["success"] === 1) {
+                        location.reload();  //重新刷新页面
+                    } else {
+                        alert("头像上传失败");
+                    }
+                });
             }
         });
     });

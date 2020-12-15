@@ -1,6 +1,7 @@
 package com.roderick.api;
 
 import com.roderick.service.FileService;
+import com.roderick.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +23,16 @@ public class ImageApi {
     String AVATAR_PREFIX;   //头像在服务器中地址的前缀
 
     FileService fileService;
+    UserService userService;
 
     @Autowired
     public void setFileService(FileService fileService) {
         this.fileService = fileService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -34,10 +40,13 @@ public class ImageApi {
      *
      * @param image base64文件
      */
-    @PostMapping("/avatar")
-    public ResponseEntity<Map<String, Object>> uploadAvatar(String image) {
+    @PostMapping("/upload/avatar")
+    public ResponseEntity<Map<String, Object>> uploadAvatar(String image, String uid) {
         String strBase64 = image.substring(image.lastIndexOf(',') + 1);
         String fileName = fileService.uploadImageToFolder(strBase64);
+
+        //修改数据库中头像信息
+        userService.updateUserAvatar(uid, AVATAR_PREFIX + '/' + fileName);
 
         //返回消息
         Map<String, Object> result = new HashMap<>();

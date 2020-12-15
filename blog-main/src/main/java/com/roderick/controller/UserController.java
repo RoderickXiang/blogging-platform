@@ -47,7 +47,7 @@ public class UserController {
     }
 
     /**
-     * 用户信息页面，包含文章、问答之类的模块
+     * 用户信息页面，包含文章
      *
      * @param uid  用户uid
      * @param page 页码
@@ -76,16 +76,20 @@ public class UserController {
      * @param uid 用户uid
      * @return 更新用户信息页面
      */
-    @GetMapping("/update/{uid}")
+    @GetMapping("/profile/{uid}")
     public String userUpdatePage(@PathVariable String uid, Model model) {
+        User user = userService.getUserByUid(uid);
+        user.setPassword("");   //清除密码
         UserInfo userInfo = userInfoService.getUserInfoByUid(uid);
+
+        model.addAttribute("user", user);
         model.addAttribute("userInfo", userInfo);
         return "user/profile";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/profile")
     public String updateUserInfo(UserInfoFrom userInfoFrom) {
         userInfoService.updateUserInfo(userInfoFrom);
-        return "redirect:/user/update/" + userInfoFrom.getUid();
+        return "redirect:/user/profile/" + userInfoFrom.getUid();
     }
 }
