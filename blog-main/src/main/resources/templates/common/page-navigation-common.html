@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="zh">
 <!--分页 参数：现在的页面 分页条的大小 总页面数 跳转地址前缀-->
-<nav th:fragment="page-navigation-common(currentPage,barSize,totalPage,addressPrefix)" style="float: right" th:if="${totalPage > 0}">
+<nav th:fragment="page-navigation-common(currentPage,barSize,totalPage,addressPrefix)" style="float: right" th:if="${totalPage > 1}">
     <ul class="pagination">
         <li class="page-item" th:if="${currentPage>1}">
             <a class="page-link" th:href="@{${addressPrefix} + '/' +${currentPage - 1} + '/' + '20'}"

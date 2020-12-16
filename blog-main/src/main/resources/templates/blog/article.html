@@ -122,11 +122,12 @@
             </div>
             <div class="col">
                 <a class="text-muted text-decoration-none" href="#" style="float: right">举报</a>
-                <div class="dropleft" style="float: right;margin-right: 10px" th:if="${session.loginUser != null && author.getUid()==session.loginUser.getUid()}">
+                <div class="dropleft" style="float: right;margin-right: 10px"
+                     th:if="${session.loginUser != null && author.getUid()==session.loginUser.getUid()}">
                     <a type="button" class="text-muted" style="float: right" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">操作</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">删除</a>
+                        <a class="dropdown-item" onclick="deleteArticle()">删除</a>
                         <a class="dropdown-item" href="#">修改</a>
                     </div>
                 </div>
@@ -151,9 +152,28 @@
         if ($tocContent.html() !== "") {
             $("#toc-container").css("display", "inline");
         }
-        //$('#report').modal()
 
     });
+
+    function deleteArticle() {
+        let articleId = "[[${article.getId()}]]";
+        let authorUid = "[[${author.getUid()}]]"; //用于验证用户是否有权限删除文章
+        //选择弹窗
+        let r = window.confirm("是否真的要删除文章？");
+        if (r) {
+            //发送删除请求
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/article/' + articleId + '/' + authorUid,
+                success: function (data) {
+                    window.location.replace("/blog")
+                },
+                error: function () {
+                    alert("删除失败");
+                }
+            });
+        }
+    }
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

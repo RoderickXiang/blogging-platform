@@ -41,4 +41,11 @@ public interface ArticleService {
      * @param id 文章id
      */
     void asyncIncreaseViews(Long id);
+
+    /**
+     * 通过文章id删除文章
+     * @param id 文章id
+     * @return 成功标志
+     */
+    boolean deleteArticleById(String id);
 }

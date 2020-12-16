@@ -1,7 +1,6 @@
 package com.roderick.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -116,5 +115,10 @@ public class ArticleServiceImpl implements ArticleService {
             //使用重写的方法
             articleMapper.increaseViewsById(id);
         });
+    }
+
+    @Override
+    public boolean deleteArticleById(String id) {
+        return articleMapper.deleteById(id) >= 1;
     }
 }
