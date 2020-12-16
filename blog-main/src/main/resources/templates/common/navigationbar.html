@@ -75,7 +75,6 @@
                                th:href="'/user/' + ${session.loginUser.getUid()} + '/article'">个人中心</a>
                             <a class="dropdown-item"
                                th:href="'/user/profile/' + ${session.loginUser.getUid()}">我的资料</a>
-                            <a class="dropdown-item">头像上传</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/logout}">注销</a>
                         </div>

@@ -30,9 +30,7 @@
         padding: 14px 16px 1px;
         user-select: none;
         margin-top: 24px;
-        /*margin-left: 30px;*/
         display: none;
-        /*float: left;*/
     }
 
     #user-container {
@@ -42,8 +40,6 @@
         padding: 14px 16px 1px;
         user-select: none;
         margin-top: 24px;
-        /*margin-left: 30px;*/
-        /*float: inside;*/
     }
 </style>
 <body>
@@ -55,10 +51,22 @@
     <div class="d-flex flex-column col-md-4">
         <!--作者信息-->
         <div id="user-container">
+            <!--作者头像-->
             <div class="text-center">
-                <img th:src="@{/image/idea_wallpaper.png}" class="rounded" alt="..."
-                     style="width: 75px;height: 75px">
+                <!--用户有头像-->
+                <div th:if="${author.getAvatar()!=null && author.getAvatar()!=''}">
+                    <img th:src="${author.getAvatar()}" alt="..." class="rounded-lg" style="width: 75px;height: 75px">
+                </div>
+                <!--用户没有头像-->
+                <div th:if="${author.getAvatar()==null || author.getAvatar()==''}">
+                    <svg width="75px" height="75px" viewBox="0 0 16 16" class="bi bi-person-fill"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    </svg>
+                </div>
             </div>
+
             <h5 style="text-align: center" th:text="${author.getUsername()}"></h5>
             <table class="table table-borderless table-sm">
                 <thead>
