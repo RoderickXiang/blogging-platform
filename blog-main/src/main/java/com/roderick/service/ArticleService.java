@@ -44,8 +44,16 @@ public interface ArticleService {
 
     /**
      * 通过文章id删除文章
+     *
      * @param id 文章id
      * @return 成功标志
      */
     boolean deleteArticleById(String id);
+
+    /**
+     * 修改文章
+     * @param id 文章id
+     * @param articleFrom 前端列表
+     */
+    void updateArticle(Long id, ArticleFrom articleFrom);
 }

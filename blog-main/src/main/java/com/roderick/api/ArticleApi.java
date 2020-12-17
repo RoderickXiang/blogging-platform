@@ -59,6 +59,7 @@ public class ArticleApi {
         if (loginUser == null || !loginUser.getUid().equals(uid)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        //删除操作
         boolean flag = articleService.deleteArticleById(id);
         if (flag) {
             Map<String, Object> map = new HashMap<>();

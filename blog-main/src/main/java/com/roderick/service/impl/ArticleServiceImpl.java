@@ -121,4 +121,14 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean deleteArticleById(String id) {
         return articleMapper.deleteById(id) >= 1;
     }
+
+    @Override
+    public void updateArticle(Long id, ArticleFrom articleFrom) {
+        Article article = new Article();
+        article.setId(id);
+        article.setTitle(articleFrom.getTitle());
+        // todo 设置文章分类
+        article.setContent(articleFrom.getContent());
+        articleMapper.updateById(article);
+    }
 }

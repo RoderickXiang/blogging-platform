@@ -10,6 +10,8 @@ import com.roderick.service.UserService;
 import com.roderick.util.PageUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -27,6 +30,7 @@ public class BlogController {
     ArticleCategoryService articleCategoryService;
     UserService userService;
     PageUtil pageUtil;
+    HttpSession httpSession;
 
     @Autowired
     public void setArticleCategoryService(ArticleCategoryService articleCategoryService) {
@@ -46,6 +50,11 @@ public class BlogController {
     @Autowired
     public void setPageUtil(PageUtil pageUtil) {
         this.pageUtil = pageUtil;
+    }
+
+    @Autowired
+    public void setHttpSession(HttpSession httpSession) {
+        this.httpSession = httpSession;
     }
 
     /**
@@ -91,6 +100,39 @@ public class BlogController {
     public String saveArticle(ArticleFrom articleFrom) {
         articleService.saveArticle(articleFrom);
         return "redirect:/index";
+    }
+
+    /**
+     * 更新文章的页面--写文章页面+回显数据
+     *
+     * @param id  文章id
+     * @param uid 用户uid
+     */
+    @GetMapping("/article/update/{id}/{uid}")
+    public String updateArticlePage(@PathVariable Long id, @PathVariable String uid, Model model) {
+        User loginUser = (User) httpSession.getAttribute("loginUser");  //登入的用户
+        //校验已登录的用户是否有权限删除文章
+        if (loginUser == null || !loginUser.getUid().equals(uid)) {
+            return null;
+        }
+        //获取文章
+        Article article = articleService.getArticleById(id);
+        if (article == null) {
+            return null;
+        }
+        model.addAttribute("article", article);
+        return "blog/write";
+    }
+
+    /**
+     * 更新文章
+     *
+     * @param id 文章id
+     */
+    @PostMapping("/article/update/{id}")
+    public String updateArticle(ArticleFrom articleFrom, @PathVariable Long id) {
+        articleService.updateArticle(id, articleFrom);
+        return "redirect:/blog/article" + '/' + id;
     }
 
     /**
