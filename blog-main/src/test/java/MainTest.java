@@ -78,7 +78,4 @@ public class MainTest {
         base64Util.base64ToFile(str, file);
     }
 
-    public static void main(String[] args) {
-        System.out.println("a.jpg".substring("a.jpg".lastIndexOf(".")));
-    }
 }
