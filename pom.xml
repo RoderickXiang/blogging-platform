@@ -59,6 +59,7 @@
                 <version>2.3.2.RELEASE</version>
             </dependency>
 
+            <!--spring-boot监控指标-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-actuator</artifactId>
