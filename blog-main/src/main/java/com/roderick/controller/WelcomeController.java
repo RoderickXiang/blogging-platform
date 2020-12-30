@@ -9,6 +9,6 @@ public class WelcomeController {
 
     @RequestMapping({"/", "/index"})
     public String i() {
-        return "blog/index";
+        return "welcome/welcome";
     }
 }

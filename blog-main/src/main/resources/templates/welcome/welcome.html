@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <title>我们の社区</title>
+</head>
+<body>
+<div th:replace="~{common/navigationbar::navigationbar('index')}"></div>
+<!--巨幕-->
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-3">我们の社区</h1>
+        <p class="lead text-monospace">本社区致力于学习笔记分享，同学们可以互相学习，共同进步👀</p>
+        <hr class="my-4">
+        <p>一起交叉编译吧🔥😜~~</p>
+        <a class="btn btn-primary btn-lg" th:href="@{/blog}" role="button">开始探索🛫</a>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</body>
+</html>
