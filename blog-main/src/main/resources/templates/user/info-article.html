@@ -113,7 +113,7 @@
                     </tbody>
                 </table>
                 <!--分页-->
-                <div th:replace="~{common/page-navigation-common::page-navigation-common(${pageArticle.getCurrent()},5,${totalPage},
+                <div th:replace="~{common/pagination-common::page-navigation-common(${pageArticle.getCurrent()},5,${totalPage},
                 '/user/' + ${user.getUid()} + '/article')}"></div>
             </div>
         </div>

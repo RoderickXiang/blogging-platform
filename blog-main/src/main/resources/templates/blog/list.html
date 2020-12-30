@@ -63,7 +63,21 @@
             </tbody>
         </table>
         <!--分页-->
-        <div th:replace="~{common/page-navigation::page-navigation(${articlePage.getCurrent()},5,${totalPage})}"></div>
+        <!--<div th:replace="~{common/pagination::page-navigation(${articlePage.getCurrent()},5,${totalPage})}"></div>-->
+        <!--<div th:replace="~{common/pagination-common::page-navigation-common(1,5,2,3)}">-->
+
+        <!--分页-->
+        <div th:with="suffix=${#httpServletRequest.queryString},prefix=${#httpServletRequest.requestURI}">
+            <!--带有搜索条件-->
+            <div th:if="${prefix.contains('search')}">
+                <div th:replace="~{common/pagination-search::page-navigation-search(${articlePage.getCurrent()},5,${totalPage},'/blog/search','?' + ${suffix})}"></div>
+            </div>
+            <!--没有搜索条件-->
+            <div th:if="not ${prefix.contains('search')}">
+                <div th:replace="~{common/pagination-common::page-navigation-common(${articlePage.getCurrent()},5,${totalPage},'/blog')}"></div>
+            </div>
+        </div>
+
     </div>
 
     <!--公告-->
