@@ -10,14 +10,9 @@ import com.roderick.service.UserService;
 import com.roderick.util.PageUtil;
 import com.roderick.vo.ArticleFrom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -142,10 +137,29 @@ public class BlogController {
      * @param size 每页数据的条数 default 20
      */
     @GetMapping({"/{page}/{size}", ""})
-    public String getArticleList(@PathVariable(value = "page", required = false) Integer page,
-                                 @PathVariable(value = "size", required = false) Integer size,
-                                 Model model) {
+    public String getArticleListPage(@PathVariable(value = "page", required = false) Integer page,
+                                     @PathVariable(value = "size", required = false) Integer size,
+                                     Model model) {
         Page<Article> articlePage = articleService.getArticleListByPageOrderByTime(page, size);
+
+        model.addAttribute("articlePage", articlePage);
+        model.addAttribute("totalPage", pageUtil.getTotalPage(articlePage.getTotal(), articlePage.getSize()));
+        return "blog/list";
+    }
+
+    /**
+     * 搜通过文章名获取文章列表
+     *
+     * @param page      页面
+     * @param size      每页数据的条数 default 20
+     * @param condition 搜索文章条件--目前只能使用文章名进行搜索
+     */
+    @GetMapping({"/search/{page}/{size}", "/search"})
+    public String getArticleListPageBySearch(@PathVariable(value = "page", required = false) Integer page,
+                                             @PathVariable(value = "size", required = false) Integer size,
+                                             @RequestParam(value = "condition") String condition,
+                                             Model model) {
+        Page<Article> articlePage = articleService.getArticleListByPageAndSearch(page, size, condition);
 
         model.addAttribute("articlePage", articlePage);
         model.addAttribute("totalPage", pageUtil.getTotalPage(articlePage.getTotal(), articlePage.getSize()));

@@ -79,31 +79,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> getArticleListByPageOrderByTime(Integer page, Integer size) {
-        if (page == null || page <= 0) {
-            page = 1;
-        }
-        if (size == null || size <= 0) {
-            size = 20;
-        }
-        return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>()
-                .orderByDesc(true, "create_time"));
-    }
-
-    @Override
-    public Page<Article> getArticleListByPageAndUidOrderByTime(String uid, Integer page, Integer size) {
-        if (page == null || page <= 0) {
-            page = 1;
-        }
-        if (size == null || size <= 0) {
-            size = 20;
-        }
-        return articleMapper.selectPage(new Page<>(page, size), new QueryWrapper<Article>()
-                .eq("author_uid", uid)
-                .orderByDesc(true, "create_time"));
-    }
-
-    @Override
     public Article getArticleById(Long id) {
         return articleMapper.selectById(id);
     }
@@ -130,5 +105,42 @@ public class ArticleServiceImpl implements ArticleService {
         // todo 设置文章分类
         article.setContent(articleFrom.getContent());
         articleMapper.updateById(article);
+    }
+
+    @Override
+    public Page<Article> getArticleListByPageOrderByTime(Integer page, Integer size) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        if (size == null || size <= 0) {
+            size = 20;
+        }
+        return articleMapper.selectPage(new Page<Article>(page, size), new QueryWrapper<Article>()
+                .orderByDesc(true, "create_time"));
+    }
+
+    @Override
+    public Page<Article> getArticleListByPageAndUidOrderByTime(String uid, Integer page, Integer size) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        if (size == null || size <= 0) {
+            size = 20;
+        }
+        return articleMapper.selectPage(new Page<>(page, size), new QueryWrapper<Article>()
+                .eq("author_uid", uid)
+                .orderByDesc(true, "create_time"));
+    }
+
+    @Override
+    public Page<Article> getArticleListByPageAndSearch(Integer page, Integer size, String condition) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        if (size == null || size <= 0) {
+            size = 20;
+        }
+        return articleMapper.selectPage(new Page<>(page, size), new QueryWrapper<Article>()
+                .like("title", condition));
     }
 }
