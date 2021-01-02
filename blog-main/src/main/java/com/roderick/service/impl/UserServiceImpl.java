@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
         //获取用户角色
         UserRole userRole = userRoleMapper.selectById(realUser.getRoleId());
 
-        //设置session --其实应该放在登入验证之后
+        // TODO 设置session --其实应该放在登入验证之后
         session.setAttribute("loginUser", realUser);
         //username 来自于前端
         //password 来自于数据库

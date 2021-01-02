@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,10 +16,10 @@ import java.util.Map;
  */
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final String url;
+    private final String URL;
 
     public MyAuthenticationSuccessHandler(String url) {
-        this.url = url;
+        this.URL = url;
     }
 
     @Override
@@ -31,7 +29,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         response.setStatus(HttpServletResponse.SC_OK);
         Map<String, String> map = new HashMap<>();
         map.put("msg", "success");
-        map.put("url", url);
+        map.put("url", URL);
         new ObjectMapper().writeValue(writer, map);
     }
 }
