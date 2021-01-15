@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+
+  main-application:
+    container_name: "web-application"
+    build:
+      context: blog-main
+    depends_on:
+      - db
+    volumes:
+      - ./docker/data/nginx/data:/usr/local/nginx/data # 数据文件夹
+    ports:
+      - "8080:8080"
+
+  spring-boot-admin:
+    container_name: "spring-boot-admin"
+    build:
+      context: blog-spring-boot-admin
+    depends_on:
+      - db
+    ports:
+      - "8888:8888"
+
+  db:
+    container_name: "mysql"
+    image: "mysql:8.0.22"
+    command: [ #使用 command 可以覆盖容器启动后默认执行的命令
+        '--character-set-server=utf8mb4', #设置数据库表的数据集
+        '--collation-server=utf8mb4_unicode_ci', #设置数据库表的数据集
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      TZ: GMT%2B8
+    volumes:
+      - ./docker/init/mysql:/docker-entrypoint-initdb.d # MySQL创建数据库文件
+      - ./docker/data/mysql:/var/lib/mysql  # 数据持久化
+    #      - ./docker/mysql/conf:/etc/mysql/conf.d # 设置
+
+  nginx:
+    container_name: "nginx"
+    image: "nginx:1.18.0"
+    volumes:
+      - ./docker/data/nginx/data:/usr/share/nginx/data # 数据
+      - ./blog-mian/src/main/resources/static/favicon.ico:/usr/share/nginx/html/favicon.ico # 网站小图标
+      - ./docker/init/nginx/nginx.conf:/etc/nginx/nginx.conf # nginx配置文件
+    depends_on:
+      - main-application
+    ports:
+      - "80:80"
