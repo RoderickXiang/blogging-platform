@@ -9,9 +9,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./docker/data/nginx/data:/usr/local/nginx/data # 数据文件夹
-    ports:
-      - "8080:8080"
+      - type: volume
+        source: data
+        target: /usr/local/nginx/data  # 数据文件夹
 
   spring-boot-admin:
     container_name: "spring-boot-admin"
@@ -31,20 +31,25 @@ services:
     ]
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      TZ: GMT%2B8
+      TZ: GMT%2B8 # 设置时区
     volumes:
       - ./docker/init/mysql:/docker-entrypoint-initdb.d # MySQL创建数据库文件
       - ./docker/data/mysql:/var/lib/mysql  # 数据持久化
-    #      - ./docker/mysql/conf:/etc/mysql/conf.d # 设置
+    # - ./docker/mysql/conf:/etc/mysql/conf.d # 设置
 
   nginx:
     container_name: "nginx"
     image: "nginx:1.18.0"
     volumes:
-      - ./docker/data/nginx/data:/usr/share/nginx/data # 数据
-      - ./blog-mian/src/main/resources/static/favicon.ico:/usr/share/nginx/html/favicon.ico # 网站小图标
+      - ./blog-main/src/main/resources/static/favicon.ico:/usr/share/nginx/html/favicon.ico # 网站小图标
       - ./docker/init/nginx/nginx.conf:/etc/nginx/nginx.conf # nginx配置文件
+      - type: volume
+        source: data
+        target: /usr/share/nginx/data
     depends_on:
       - main-application
     ports:
       - "80:80"
+
+volumes:
+  data:  # 存放产生的数据
