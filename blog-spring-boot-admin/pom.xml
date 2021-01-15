@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-admin</artifactId>
+    <artifactId>blog-spring-boot-admin</artifactId>
 
     <dependencies>
 

@@ -18,7 +18,7 @@
     <!--子项目-->
     <modules>
         <module>blog-main</module>
-        <module>spring-boot-admin</module>
+        <module>blog-spring-boot-admin</module>
     </modules>
 
     <properties>
