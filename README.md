@@ -35,8 +35,8 @@ mvn package
 sudo docker-compose up -d # 启动项目
 sudo docker-compose down # 停止项目
 
-sudo docker-compose -p blogging-plaform up -d # 重命名启动
-sudo docker-compose -p blogging-plaform down
+sudo docker-compose -p blogging-platform up -d # 重命名启动
+sudo docker-compose -p blogging-platform down
 ```
 #### 数据持久化
 ```
