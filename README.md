@@ -1,7 +1,7 @@
 ## 简介
 采用Spring Boot + Thymeleaf的博客社区项目，使用Nginx作为文件服务器，适用于课程设计  
-可以使用docker-compose部署  
-
+**可以使用docker-compose部署**  
+![](https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2818960303,1643407693&fm=26&gp=0.jpg)
 ## 技术栈
 
 技术 | 解决方案
