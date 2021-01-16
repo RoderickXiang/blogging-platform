@@ -1,5 +1,6 @@
 ## 简介
 采用Spring Boot + Thymeleaf的博客社区项目，使用Nginx作为文件服务器，适用于课程设计  
+可以使用docker-compose部署  
 
 ## 技术栈
 
@@ -20,7 +21,31 @@
 [![rjXMqS.png](https://s3.ax1x.com/2020/12/31/rjXMqS.png)](https://imgchr.com/i/rjXMqS)
 
 ## 部署
-### Nginx配置
+### 使用docker-compose
+切换到项目目录：
+```shell script
+cd 项目根目录 # 项目目录不要使用中文
+```
+使用maven进行打包：
+```shell script
+mvn package
+```
+运行docker-compose：
+```shell script
+sudo docker-compose up -d # 启动项目
+sudo docker-compose down # 停止项目
+
+sudo docker-compose -p blogging-plaform up -d # 重命名启动
+sudo docker-compose -p blogging-plaform down
+```
+#### 数据持久化
+```
+./docker/data   # 持久化数据
+```
+docker-compose会创建一个volume用于存储nginx中的数据
+
+### 直接部署
+#### Nginx配置
 由于使用到了Nginx作为文件服务器的功能并且文件上传的实现是通过controller直接存入文件夹，所以在不同环境需要配置不同的文件夹路径  
 
 Nginx服务器的目录结构：
