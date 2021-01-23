@@ -1,9 +1,12 @@
 ## 简介
 采用Spring Boot + Thymeleaf的博客社区项目，使用Nginx作为文件服务器，适用于课程设计  
 **可以使用docker-compose部署**  
-![](https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2818960303,1643407693&fm=26&gp=0.jpg)
-## 技术栈
+![](https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2818960303,1643407693&fm=26&gp=0.jpg)  
+演示地址：http://8.136.7.197/  
+GitHub：https://github.com/RoderickXiang/blogging-platform
+码云：https://gitee.com/RoderickXiang/blogging-platform
 
+## 技术栈
 技术 | 解决方案
 ---|---
 后端 | Spring Boot
@@ -11,6 +14,7 @@
 数据库 | MySQL 8.0 + MyBatis-Plus
 文件服务器 | Nginx
 监控 | Spring Boot Actuator + Spring Boot Admin
+部署 | docker-compose
 
 ## 架构图
 [![rjLX1P.png](https://s3.ax1x.com/2020/12/31/rjLX1P.png)](https://imgchr.com/i/rjLX1P)
@@ -23,15 +27,15 @@
 ## 部署
 ### 使用docker-compose
 切换到项目目录：
-```shell script
+```shell
 cd 项目根目录 # 项目目录不要使用中文
 ```
 使用maven进行打包：
-```shell script
+```shell
 mvn package
 ```
 运行docker-compose：
-```shell script
+```shell
 sudo docker-compose up -d # 启动项目
 sudo docker-compose down # 停止项目
 
@@ -94,14 +98,13 @@ http {
 }
 ```
 
-## 项目的下一步
+## 项目的未来
 1. 密码修改
 2. 评论区
 3. 问答模块
 4. 类似LeetCode的Playground
 
 ## 使用到的个人开源项目
-
 技术 | 解决方案
 ---|---
 头像裁剪 + 上传 | https://github.com/saintic/layui-cropper-avatar

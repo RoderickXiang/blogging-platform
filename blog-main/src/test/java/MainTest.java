@@ -15,9 +15,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.beans.Expression;
 import java.io.File;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest(classes = StartApplication.class)
@@ -77,5 +80,4 @@ public class MainTest {
         File file = new File(AVATAR_FOLDER + "/" + "test.jpg");
         base64Util.base64ToFile(str, file);
     }
-
 }
