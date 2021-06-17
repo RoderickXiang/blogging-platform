@@ -7,7 +7,7 @@ services:
     build:
       context: blog-main
     depends_on:
-      - db
+      - database
     volumes:
       - type: volume
         source: data
@@ -18,11 +18,11 @@ services:
     build:
       context: blog-spring-boot-admin
     depends_on:
-      - db
+      - database
     ports:
       - "8888:8888"
 
-  db:
+  database:
     container_name: "mysql"
     image: "mysql:8.0.22"
     command: [ #使用 command 可以覆盖容器启动后默认执行的命令
