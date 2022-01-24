@@ -4,7 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 # docker-compose产生的数据
-/docker/data
+/build/docker/data
 
 ### STS ###
 .apt_generated
@@ -27,7 +27,6 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 
 ### VS Code ###
 .vscode/
