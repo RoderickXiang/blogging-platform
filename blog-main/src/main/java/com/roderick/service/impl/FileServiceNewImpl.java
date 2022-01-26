@@ -1,20 +1,20 @@
 package com.roderick.service.impl;
 
+import com.roderick.bo.Base64ToMultipartFile;
 import com.roderick.service.FileServiceNew;
-import com.roderick.util.ImageCheckUtil;
-import com.roderick.util.MultipartFileToFile;
-import com.roderick.util.UUIDUtil;
+import com.roderick.util.*;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -35,13 +35,6 @@ public class FileServiceNewImpl implements FileServiceNew {
 
     private MinioClient minioClient;
 
-    private ImageCheckUtil imageCheckUtil;
-
-    @Autowired
-    public void setImageCheckUtil(ImageCheckUtil imageCheckUtil) {
-        this.imageCheckUtil = imageCheckUtil;
-    }
-
     /*
       初始化MinIO文件服务
      */
@@ -54,28 +47,45 @@ public class FileServiceNewImpl implements FileServiceNew {
     }
 
     @Override
-    public boolean uploadImage(MultipartFile file, String folderName) {
+    public String uploadImage(MultipartFile file, String folderName) {
         try {
             // 校验文件是否为图片
-            if (!imageCheckUtil.isImage(MultipartFileToFile.multipartFileToFile(file))) {
+            BufferedImage read = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+            if (read == null) {
                 System.out.println("非图片文件");
-                return false;
+                return "";
             }
             // Upload unknown sized input stream.
             InputStream inputStream = new ByteArrayInputStream(file.getBytes());
-            String fileName = file.getName();
-            String suffix = "".equals(fileName) ? ".jpg" : fileName.substring(fileName.lastIndexOf("."));
+            String fileName = file.getOriginalFilename();
+            String suffix;
+            if ("".equals(fileName) || fileName == null) {
+                suffix = ".jpg";
+            } else {
+                suffix = fileName.substring(fileName.lastIndexOf("."));
+            }
+            String fileNameInServer = UUIDUtil.getUUID() + suffix;
             minioClient.putObject(
                     PutObjectArgs.builder().bucket(MINIO_BUCKET)
-                            .object(folderName + '/' + UUIDUtil.getUUID() + suffix)
+                            .object(folderName + '/' + fileNameInServer)
                             .stream(inputStream, -1, 10485760)
                             .contentType(file.getContentType())
                             .build());
+
+            inputStream.close();
+            return fileNameInServer;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "";
         }
-        return true;
+    }
+
+    @Override
+    public String uploadImage(String imageBase64, String folderName) {
+        String base64 = imageBase64.split(",")[1];
+        String dataUri = imageBase64.split(",")[0];
+        // 使用自定义MultipartFile
+        return uploadImage(new Base64ToMultipartFile(base64, dataUri), folderName);
     }
 
     @Override

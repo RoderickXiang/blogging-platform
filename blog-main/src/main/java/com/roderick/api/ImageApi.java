@@ -40,7 +40,7 @@ public class ImageApi {
      *
      * @param image base64文件
      */
-    @PostMapping("/upload/avatar")
+    /*@PostMapping("/upload/avatar")*/
     public ResponseEntity<Map<String, Object>> uploadAvatar(String image, String uid) {
         String strBase64 = image.substring(image.lastIndexOf(',') + 1);
         String fileName = fileService.uploadImageToFolder(strBase64);

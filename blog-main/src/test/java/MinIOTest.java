@@ -23,10 +23,15 @@ public class MinIOTest {
 
     @Test
     public void imageUploadTest() throws Exception {
-        File file = new File("C:\\Users\\30979\\Pictures\\头像\\gopher.png");
+        File file = new File("C:\\Users\\30979\\Pictures\\头像\\新建文本文档.txt");
         FileInputStream fileInputStream = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(),
                 ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
         System.out.println(fileServiceNew.uploadImage(multipartFile, "test"));
+    }
+
+    @Test
+    public void base64Test(){
+
     }
 }

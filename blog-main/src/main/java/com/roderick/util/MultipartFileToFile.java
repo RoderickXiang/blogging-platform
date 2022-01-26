@@ -17,7 +17,6 @@ public class MultipartFileToFile {
             inputStreamToFile(ins, toFile);
             ins.close();
         }
-        deleteTempFile(toFile);
         return toFile;
     }
 
