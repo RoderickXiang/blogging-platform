@@ -10,7 +10,6 @@ import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -22,9 +21,6 @@ public class FileController {
 
     @Value("${avatar.folder}")
     String AVATAR_FOLDER;
-
-    @Value("${image-article.folder}")
-    String IMAGE_ARTICLE_FOLDER;
 
     FileServiceNew fileServiceNew;
     UserService userService;
@@ -70,28 +66,5 @@ public class FileController {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-
-    /**
-     * markdown图床存储图片
-     *
-     * @param file 图片
-     */
-    @PostMapping("/upload/image")
-    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
-        //上传文件到文件服务器文件夹
-        String fileName = fileServiceNew.uploadImage(file, IMAGE_ARTICLE_FOLDER);
-
-        //返回json结果
-        Map<String, Object> result = new HashMap<>();
-        if (fileName != null) {
-            result.put("success", 1);
-            result.put("message", "上传成功");
-            result.put("url", "/images/" + IMAGE_ARTICLE_FOLDER + '/' + fileName);
-        } else {
-            result.put("success", 0);
-            result.put("message", "上传失败");
-        }
-        return ResponseEntity.ok(result);
     }
 }
