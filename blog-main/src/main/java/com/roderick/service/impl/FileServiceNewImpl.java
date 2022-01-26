@@ -30,6 +30,9 @@ public class FileServiceNewImpl implements FileServiceNew {
     @Value("${minio.password}")
     private String MINIO_PASSWORD;
 
+    @Value("${minio.bucket}")
+    private String MINIO_BUCKET;
+
     private MinioClient minioClient;
 
     private ImageCheckUtil imageCheckUtil;
@@ -51,7 +54,7 @@ public class FileServiceNewImpl implements FileServiceNew {
     }
 
     @Override
-    public boolean uploadImage(MultipartFile file, String bucketName) {
+    public boolean uploadImage(MultipartFile file, String folderName) {
         try {
             // 校验文件是否为图片
             if (!imageCheckUtil.isImage(MultipartFileToFile.multipartFileToFile(file))) {
@@ -63,8 +66,8 @@ public class FileServiceNewImpl implements FileServiceNew {
             String fileName = file.getName();
             String suffix = "".equals(fileName) ? ".jpg" : fileName.substring(fileName.lastIndexOf("."));
             minioClient.putObject(
-                    PutObjectArgs.builder().bucket(bucketName)
-                            .object(UUIDUtil.getUUID() + suffix)
+                    PutObjectArgs.builder().bucket(MINIO_BUCKET)
+                            .object(folderName + '/' + UUIDUtil.getUUID() + suffix)
                             .stream(inputStream, -1, 10485760)
                             .contentType(file.getContentType())
                             .build());
@@ -76,16 +79,17 @@ public class FileServiceNewImpl implements FileServiceNew {
     }
 
     @Override
-    public InputStream downloadFile(String bucketName, String fileName, HttpServletResponse response) {
+    public InputStream downloadFile(String folderName, String fileName, HttpServletResponse response) {
         if (fileName == null || fileName.isEmpty()) {
             return null;
         }
         try {
             InputStream stream = minioClient.getObject(
                     GetObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
+                            .bucket(MINIO_BUCKET)
+                            .object(folderName + "/" + fileName)
                             .build());
+
             ServletOutputStream outputStream = response.getOutputStream();
             int len;
             byte[] buffer = new byte[1024];
@@ -98,6 +102,7 @@ public class FileServiceNewImpl implements FileServiceNew {
             return stream;
         } catch (Exception e) {
             System.out.println("请求文件不存在");
+            e.printStackTrace();
             return null;
         }
     }

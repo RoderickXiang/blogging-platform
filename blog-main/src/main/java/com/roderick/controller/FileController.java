@@ -25,12 +25,12 @@ public class FileController {
         this.fileServiceNew = fileServiceNew;
     }
 
-    @GetMapping("/images/{bucketName}/{imageName}")
-    public ResponseEntity<Object> downloadImage(@PathVariable String bucketName, @PathVariable String imageName, HttpServletResponse response) {
+    @GetMapping("/images/{folderName}/{imageName}")
+    public ResponseEntity<Object> downloadImage(@PathVariable String folderName, @PathVariable String imageName, HttpServletResponse response) {
         Optional<MediaType> mediaType = MediaTypeFactory.getMediaType(imageName);
         // 设置文件类型
         response.setContentType(mediaType.orElse(MediaType.TEXT_HTML).toString());
-        if (fileServiceNew.downloadFile(bucketName, imageName, response) == null) {
+        if (fileServiceNew.downloadFile(folderName, imageName, response) == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();

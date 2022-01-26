@@ -34,6 +34,11 @@
       "name": "minio.password",
       "type": "java.lang.String",
       "description": "Description for minio.password."
+    },
+    {
+      "name": "minio.bucket",
+      "type": "java.lang.String",
+      "description": "Description for minio.bucket."
     }
   ]
 }
