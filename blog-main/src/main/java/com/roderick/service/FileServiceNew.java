@@ -19,6 +19,12 @@ public interface FileServiceNew {
      */
     String uploadImage(MultipartFile file, String folderName);
 
+    /**
+     * 上传base64图片文件
+     *
+     * @param strBase64  图片文件
+     * @param folderName 数据集中文件夹的名字
+     */
     String uploadImage(String strBase64, String folderName);
 
     /**
