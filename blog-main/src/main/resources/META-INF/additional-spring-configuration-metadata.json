@@ -19,6 +19,26 @@
       "name": "file.server.avatar",
       "type": "java.lang.String",
       "description": "Description for file.server.avatar."
+    },
+    {
+      "name": "minio.endpoint",
+      "type": "java.lang.String",
+      "description": "Description for minio.endpoint."
+    },
+    {
+      "name": "minio.username",
+      "type": "java.lang.String",
+      "description": "Description for minio.username."
+    },
+    {
+      "name": "minio.password",
+      "type": "java.lang.String",
+      "description": "Description for minio.password."
+    },
+    {
+      "name": "minio.bucket",
+      "type": "java.lang.String",
+      "description": "Description for minio.bucket."
     }
   ]
 }

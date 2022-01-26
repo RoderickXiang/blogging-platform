@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +39,7 @@ public class ImageApi {
      *
      * @param image base64文件
      */
-    @PostMapping("/upload/avatar")
+    /*@PostMapping("/upload/avatar")*/
     public ResponseEntity<Map<String, Object>> uploadAvatar(String image, String uid) {
         String strBase64 = image.substring(image.lastIndexOf(',') + 1);
         String fileName = fileService.uploadImageToFolder(strBase64);
@@ -65,7 +64,7 @@ public class ImageApi {
      *
      * @param file 图片
      */
-    @PostMapping("/upload/image")
+    /*@PostMapping("/upload/image")*/
     public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
         //上传文件到文件服务器文件夹
         String fileName = fileService.uploadImageToFolder(file);
