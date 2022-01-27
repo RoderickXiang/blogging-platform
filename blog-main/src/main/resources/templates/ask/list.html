@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <title>问答</title>
+</head>
+<style>
+    #question-list-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        user-select: none;
+        margin-top: 24px;
+        float: left;
+    }
+
+    #notice-list-container {
+        background: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px, rgba(0, 0, 0, 0.08) 0 2px 8px;
+        border-radius: 8px;
+        padding: 14px 16px 1px;
+        margin-left: 5px;
+        user-select: none;
+        margin-top: 24px;
+        height: fit-content;
+        float: right;
+    }
+</style>
+<body>
+<div th:replace="~{common/navigationbar::navigationbar('question')}"></div>
+<div class="container d-flex justify-content-between">
+    <!--文章列表-->
+    <div id="question-list-container" class="col-md-9">
+        <table class="table table-sm table-hover table-striped table-borderless">
+            <thead>
+            <tr>
+                <!--调整每列宽度-->
+                <th scope="col" style="width: 50%"></th>
+                <th scope="col" style="width: 30%"></th>
+                <th scope="col" style="width: 20%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question:${questionPage.getRecords()}">
+                <td>
+                    <a th:href="@{'/ask/question' + '/' + ${question.getId()}}" th:text="${question.getTitle()}"></a>
+                </td>
+                <td>
+                    <a class="text-decoration-none text-break" th:href="@{'/user/' + ${question.getAuthorUid()} + '/question'}"
+                       th:text="${question.getAuthorName()}"></a>
+                </td>
+                <td class="font-weight-light text-muted" th:text="${question.getFormattedCreateTime()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--分页-->
+        <!--<div th:replace="~{common/pagination::page-navigation(${articlePage.getCurrent()},5,${totalPage})}"></div>-->
+        <!--<div th:replace="~{common/pagination-common::page-navigation-common(1,5,2,3)}">-->
+
+        <!--分页-->
+        <div th:with="suffix=${#httpServletRequest.queryString},prefix=${#httpServletRequest.requestURI}">
+            <!--TODO 改为问答的参数 带有搜索条件-->
+            <div th:if="${prefix.contains('search')}">
+                <div th:replace="~{common/pagination-search::page-navigation-search(${questionPage.getCurrent()},5,${totalPage},'/blog/search','?' + ${suffix})}"></div>
+            </div>
+            <!--没有搜索条件-->
+            <div th:if="not ${prefix.contains('search')}">
+                <div th:replace="~{common/pagination-common::page-navigation-common(${questionPage.getCurrent()},5,${totalPage},'/blog')}"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--公告-->
+    <div id="notice-list-container" class="col-md-3">
+        <h6 class="font-weight-bold" style="text-align: center">公告</h6>
+        <p class="text-muted">&emsp;&emsp;发表文章请遵守社会主义核心价值观，不要水文章，又没有经验~~🤷‍♂</p>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/jquery-3.5.1.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/popper.min.js}" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</body>
+</html>
