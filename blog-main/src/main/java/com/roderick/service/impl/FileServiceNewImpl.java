@@ -3,13 +3,10 @@ package com.roderick.service.impl;
 import com.roderick.bo.Base64ToMultipartFile;
 import com.roderick.service.FileServiceNew;
 import com.roderick.util.*;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -44,6 +41,21 @@ public class FileServiceNewImpl implements FileServiceNew {
                 .endpoint(MINIO_ENDPOINT)
                 .credentials(MINIO_USERNAME, MINIO_PASSWORD)
                 .build();
+
+        // 在服务器中检验bucket是否存在
+        try {
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder()
+                    .bucket(MINIO_BUCKET)
+                    .build());
+
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder()
+                        .bucket(MINIO_BUCKET)
+                        .build());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
