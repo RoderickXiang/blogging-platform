@@ -65,7 +65,7 @@ public class ImageApi {
      *
      * @param file 图片
      */
-    @PostMapping("/upload/image")
+    /*@PostMapping("/upload/image")*/
     public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("editormd-image-file") MultipartFile file) {
         //上传文件到文件服务器文件夹
         String fileName = fileService.uploadImageToFolder(file);
