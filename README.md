@@ -59,11 +59,11 @@ mvn package
 运行docker-compose：
 
 ```shell
-sudo docker-compose up -d # 启动项目
-sudo docker-compose down # 停止项目
+cd build
+cd docker
 
-sudo docker-compose -p blogging-platform up -d # 重命名启动
-sudo docker-compose -p blogging-platform down
+sudo docker-compose -p community -f docker-compose.yml up -d # 重命名启动
+sudo docker-compose -p community down # 关闭注意会留下数据文件在docker volume中
 ```
 
 #### 数据持久化
